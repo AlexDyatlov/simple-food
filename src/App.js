@@ -1,12 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import SvgIcon from "./ui/SvgIcon/SvgIcon";
 import Button from "./ui/Button/Button";
 
 import logo from './assets/img/logo.svg';
-import burgerImg from './assets/img/burger.png';
 
 function App() {
+  const [error, setError] = useState(null);
+  const [burgers, setBurgers] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/burgers')
+      .then(res => res.ok ? res.json() : Promise.reject(res))
+      .then(
+        (result) => {
+          setTimeout(() => {
+            setIsLoaded(true);
+            setBurgers(result);
+          }, 500)
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      )
+  }, []);
+
   return (
     <div className="App bg-[#F9FAFF]">
       <div className="max-w-[1170px] mx-auto px-4">
@@ -78,22 +98,33 @@ function App() {
               </Button>
             </li>
           </ul>
-          <ul className="grid grid-cols-5 gap-[30px]">
-            <li className="">
-              <div className="py-5 px-4 h-full bg-white border text-center rounded-[5px] border-[#ECECEC] flex flex-col items-center">
-                <img className="mb-2.5" src={burgerImg} width="140" height="140" alt="text" />
-                <div className="text-[15px] mb-2.5">
-                  Чизбургер с листьями салата
-                </div>
-                <div className="text-[15px] font-medium mb-2.5 mt-auto">
-                  160 руб.
-                </div>
-                <Button className='text-sm py-[7px] px-4 rounded-md flex items-center text-white bg-[#FF6838]' tag='btn' type='button'>
-                  В корзину
-                </Button>
-              </div>
-            </li>
-          </ul>
+          <>
+            {error
+              ? <div>Ошибка: {error.status + ' - ' + error.statusText}</div>
+              : !isLoaded
+                ? <div>Загрузка...</div>
+                : <ul className="grid grid-cols-5 gap-[30px]">
+                  {
+                    burgers.map(burger => (
+                      <li className="" key={burger.id}>
+                        <div className="py-5 px-4 h-full bg-white border text-center rounded-[5px] border-[#ECECEC] flex flex-col items-center">
+                          <img className="mb-2.5" src={require(`./assets/img/burgers/${burger.imageUrl}.png`)} width="140" height="140" alt="text" />
+                          <div className="text-[15px] mb-2.5">
+                            {burger.name}
+                          </div>
+                          <div className="text-[15px] font-medium mb-2.5 mt-auto">
+                            {burger.price} руб.
+                          </div>
+                          <Button className='text-sm py-[7px] px-4 rounded-md flex items-center text-white bg-[#FF6838]' tag='btn' type='button'>
+                            В корзину
+                          </Button>
+                        </div>
+                      </li>
+                    ))
+                  }
+                </ul>
+            }
+          </>
         </div>
       </div>
     </div>

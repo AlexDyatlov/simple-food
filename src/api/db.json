@@ -1,0 +1,40 @@
+{
+  "burgers": [
+    {
+      "id": 0,
+      "imageUrl": "burger-1",
+      "name": "Чизбургер с листьями салата",
+      "price": 160
+    },
+    {
+      "id": 1,
+      "imageUrl": "burger-2",
+      "name": "Бифбургер",
+      "price": 190
+    },
+    {
+      "id": 2,
+      "imageUrl": "burger-3",
+      "name": "Королевский чизбургер",
+      "price": 260
+    },
+    {
+      "id": 3,
+      "imageUrl": "burger-4",
+      "name": "Черный гамбургер",
+      "price": 199
+    },
+    {
+      "id": 4,
+      "imageUrl": "burger-5",
+      "name": "Чикен бургер",
+      "price": 180
+    },
+    {
+      "id": 5,
+      "imageUrl": "burger-4",
+      "name": "Черный гамбургер",
+      "price": 199
+    }
+  ]
+}
