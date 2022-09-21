@@ -1,6 +1,6 @@
 import React from 'react';
 
-import spriteSvg from '../../assets/sprite.svg';
+import spriteSvg from '../../../assets/sprite.svg';
 
 const SvgIcon = ({ name, size, className }) => {
   return (
