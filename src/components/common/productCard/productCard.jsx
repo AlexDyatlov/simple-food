@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Button from '../button/button';
 
@@ -17,6 +18,12 @@ const ProductCard = ({ img, name, price }) => {
       </Button>
     </div>
   );
+};
+
+ProductCard.propTypes = {
+  img: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired
 };
 
 export default ProductCard;

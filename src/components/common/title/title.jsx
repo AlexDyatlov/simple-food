@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const getTagName = (tag) => {
   let value;
@@ -25,6 +26,12 @@ const Title = ({ className, children, tag }) => {
   const TagName = getTagName(tag);
 
   return <TagName className={className}>{children}</TagName>;
+};
+
+Title.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.string.isRequired,
+  tag: PropTypes.string.isRequired
 };
 
 export default Title;

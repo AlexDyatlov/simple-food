@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const getTagName = (tag) => {
   let value;
@@ -32,6 +33,13 @@ const Button = ({ className, children, tag, onClick, ...rest }) => {
       {children}
     </TagName>
   );
+};
+
+Button.propTypes = {
+  className: PropTypes.string,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
+  tag: PropTypes.string.isRequired,
+  onClick: PropTypes.func
 };
 
 export default Button;
