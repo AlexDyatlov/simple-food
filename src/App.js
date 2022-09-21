@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import Main from "./layouts/main/main";
+import Main from './layouts/main/main';
 
 function App() {
   return (

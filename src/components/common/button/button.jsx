@@ -4,15 +4,15 @@ const getTagName = (tag) => {
   let value;
 
   switch (tag) {
-    case 'btn':
-      value = 'button';
-      break;
-    case 'link':
-      value = 'a';
-      break;
-    default:
-      value = 'div';
-      break;
+  case 'btn':
+    value = 'button';
+    break;
+  case 'link':
+    value = 'a';
+    break;
+  default:
+    value = 'div';
+    break;
   };
 
   return value;
