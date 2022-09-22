@@ -19,7 +19,7 @@ const getTagName = (tag) => {
   return value;
 };
 
-const resetInitialStyles = 'p-0 border border-transparent text-center cursor-pointer transition-colors duration-300 ease-in-out';
+const resetInitialStyles = 'p-0 border border-transparent cursor-pointer transition-colors duration-300 ease-in-out';
 
 const Button = ({ className, children, tag, onClick, ...rest }) => {
   const TagName = getTagName(tag);

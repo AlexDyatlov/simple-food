@@ -1,10 +1,12 @@
 import React from 'react';
 
-import Main from './layouts/main/main';
+// import Main from './layouts/main/main';
+import Catalog from './layouts/catalog/catalog';
 
 function App() {
   return (
-    <Main />
+    // <Main />
+    <Catalog />
   );
 }
 
