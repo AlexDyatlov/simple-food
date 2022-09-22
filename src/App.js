@@ -1,12 +1,16 @@
 import React from 'react';
+import { Route, Switch, Redirect } from 'react-router-dom';
 
-// import Main from './layouts/main/main';
+import Main from './layouts/main/main';
 import Catalog from './layouts/catalog/catalog';
 
 function App() {
   return (
-    // <Main />
-    <Catalog />
+    <Switch>
+      <Route path='/catalog' component={Catalog} />
+      <Route path='/' exact component={Main} />
+      <Redirect to='/' />
+    </Switch>
   );
 }
 
