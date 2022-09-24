@@ -21,7 +21,7 @@ const Header = () => {
                 <SvgIcon name='search' size='24' className='text-transparent' />
               </a>
               <a className='inline-block' href='/'>
-                <SvgIcon name='cart' size='24' className='text-transparent' />
+                <SvgIcon name='cart' size='24' className='stroke-[#363853] text-transparent' />
               </a>
             </div>
           </div>

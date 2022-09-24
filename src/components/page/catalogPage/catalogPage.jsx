@@ -77,7 +77,7 @@ const CatalogPage = () => {
                 {
                   burgers.map(burger => (
                     <li className='' key={burger.id}>
-                      <ProductCard img={burger.imageUrl} name={burger.name} price={burger.price} />
+                      <ProductCard img={burger.imageUrl} name={burger.name} price={burger.price} productId={burger.id} />
                     </li>
                   ))
                 }

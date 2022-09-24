@@ -7,7 +7,7 @@ import Catalog from './layouts/catalog/catalog';
 function App() {
   return (
     <Switch>
-      <Route path='/catalog' component={Catalog} />
+      <Route path='/catalog/:productId?' component={Catalog} />
       <Route path='/' exact component={Main} />
       <Redirect to='/' />
     </Switch>
