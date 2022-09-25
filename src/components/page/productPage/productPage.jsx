@@ -24,14 +24,14 @@ const ProductPage = ({ productId }) => {
     return (
       <div className='App bg-[#F9FAFF]'>
         <Header />
-        <Breadcrumbs />
+        <Breadcrumbs name={burger.name} productId={productId} />
         <div className='flex max-w-[1170px] mx-auto px-4 pb-[60px] mt-[60px]'>
           <div className='h-[550px] w-[610px] flex items-center justify-center bg-white mr-[30px] border rounded-[5px]'>
             <img src={require(`../../../assets/img/burgers/${burger.imageUrl}.png`)} width='400' height='400' alt='' />
           </div>
           <div className=''>
             <Title className='text-4xl font-medium text-[#363853] mb-[30px]' tag='h2'>{burger.name}</Title>
-            <Title className='text-[25px] font-medium text-[#363853] mb-[20px]'>{burger.price} руб.</Title>
+            <div className='text-[25px] font-medium text-[#363853] mb-[20px]'>{burger.price} руб.</div>
             <div className='flex mb-[30px]'>
               <div className='flex mr-5'>
                 <Button
