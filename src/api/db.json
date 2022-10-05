@@ -1,40 +1,60 @@
 {
-  "burgers": [
+  "food": [
     {
       "id": "s1hv963b4ffgzavk4z0n5001",
       "imageUrl": "burger-1",
       "name": "Чизбургер с листьями салата",
-      "price": 160
+      "price": 160,
+      "category": "burger"
     },
     {
       "id": "s1hv963b4ffgzavk4z0n5002",
       "imageUrl": "burger-2",
       "name": "Бифбургер",
-      "price": 190
+      "price": 190,
+      "category": "burger"
     },
     {
       "id": "s1hv963b4ffgzavk4z0n5003",
       "imageUrl": "burger-3",
       "name": "Королевский чизбургер",
-      "price": 260
+      "price": 260,
+      "category": "burger"
     },
     {
       "id": "s1hv963b4ffgzavk4z0n5004",
       "imageUrl": "burger-4",
       "name": "Черный гамбургер",
-      "price": 199
+      "price": 199,
+      "category": "burger"
     },
     {
       "id": "s1hv963b4ffgzavk4z0n5005",
       "imageUrl": "burger-5",
       "name": "Чикен бургер",
-      "price": 180
+      "price": 180,
+      "category": "burger"
     },
     {
       "id": "s1hv963b4ffgzavk4z0n5006",
       "imageUrl": "burger-4",
       "name": "Черный гамбургер",
-      "price": 199
+      "price": 199,
+      "category": "burger"
+    },
+    {
+      "id": "s1hv963b4ffgzavk4z0n5007",
+      "imageUrl": "pizza-1",
+      "name": "Пепперони",
+      "price": 350,
+      "category": "pizza"
+    },
+    {
+      "id": "s1hv963b4ffgzavk4z0n5008",
+      "imageUrl": "pizza-2",
+      "name": "Ветчина и грибы",
+      "price": 370,
+      "category": "pizza"
     }
   ],
   "categories": [

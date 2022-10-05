@@ -8,30 +8,30 @@ import Button from '../../common/button/button';
 
 const ProductPage = ({ productId }) => {
   const BASE_URL = 'http://localhost:3001';
-  const [burger, setBurger] = useState();
+  const [food, setFood] = useState();
 
   const getById = (id) => {
-    return fetch(`${BASE_URL}/burgers`)
+    return fetch(`${BASE_URL}/food`)
       .then(res => res.json())
       .then(res => res.find(res => res.id === id));
   };
 
   useEffect(() => {
-    getById(productId).then((data) => setBurger(data));
+    getById(productId).then((data) => setFood(data));
   }, []);
 
-  if (burger) {
+  if (food) {
     return (
-      <div className='App bg-[#F9FAFF]'>
+      <div className='App bg-[#F9FAFF] h-screen'>
         <Header />
-        <Breadcrumbs name={burger.name} productId={productId} />
+        <Breadcrumbs name={food.name} productId={productId} />
         <div className='flex max-w-[1170px] mx-auto px-4 pb-[60px] mt-[60px]'>
           <div className='h-[550px] w-[610px] flex items-center justify-center bg-white mr-[30px] border rounded-[5px]'>
-            <img src={require(`../../../assets/img/burgers/${burger.imageUrl}.png`)} width='400' height='400' alt='' />
+            <img src={require(`../../../assets/img/food/${food.imageUrl}.png`)} width='400' height='400' alt='' />
           </div>
           <div className=''>
-            <Title className='text-4xl font-medium text-[#363853] mb-[30px]' tag='h2'>{burger.name}</Title>
-            <div className='text-[25px] font-medium text-[#363853] mb-[20px]'>{burger.price} руб.</div>
+            <Title className='text-4xl font-medium text-[#363853] mb-[30px]' tag='h2'>{food.name}</Title>
+            <div className='text-[25px] font-medium text-[#363853] mb-[20px]'>{food.price} руб.</div>
             <div className='flex mb-[30px]'>
               <div className='flex mr-5'>
                 <Button

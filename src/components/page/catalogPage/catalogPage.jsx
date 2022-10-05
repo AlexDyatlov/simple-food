@@ -9,18 +9,18 @@ import ProductCard from '../../common/productCard/productCard';
 const CatalogPage = () => {
   const BASE_URL = 'http://localhost:3001';
   const [error, setError] = useState(null);
-  const [burgers, setBurgers] = useState([]);
+  const [food, setFood] = useState([]);
   const [category, setCategory] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const fetchAllBurgers = () => {
-    return fetch(`${BASE_URL}/burgers`)
+  const fetchAllFood = () => {
+    return fetch(`${BASE_URL}/food`)
       .then(res => res.ok ? res.json() : Promise.reject(res))
       .then(
         (res) => {
           setTimeout(() => {
             setIsLoaded(true);
-            setBurgers(res);
+            setFood(res);
           }, 500);
         },
         (error) => {
@@ -46,12 +46,12 @@ const CatalogPage = () => {
   };
 
   useEffect(() => {
-    fetchAllBurgers().then((data) => setBurgers(data));
+    fetchAllFood().then((data) => setFood(data));
     fetchAllCategories().then((data) => setCategory(data));
   }, []);
 
   return (
-    <div className='App bg-[#F9FAFF]'>
+    <div className='App bg-[#F9FAFF] h-screen'>
       <Header />
       <Breadcrumbs />
       <div className='product-catalog max-w-[1170px] mx-auto px-4'>
@@ -75,9 +75,9 @@ const CatalogPage = () => {
               ? <div>Загрузка...</div>
               : <ul className='grid grid-cols-4 gap-2.5'>
                 {
-                  burgers.map(burger => (
-                    <li className='' key={burger.id}>
-                      <ProductCard img={burger.imageUrl} name={burger.name} price={burger.price} productId={burger.id} />
+                  food.map(item => (
+                    <li className='' key={item.id}>
+                      <ProductCard img={item.imageUrl} name={item.name} price={item.price} productId={item.id} />
                     </li>
                   ))
                 }
