@@ -4,6 +4,7 @@ import Breadcrumbs from '../../common/breadcrumbs/breadcrumbs';
 import Title from '../../common/title/title';
 import SideBar from '../../common/sideBar/sideBar';
 import Food from '../../ui/food/food';
+import Pagination from '../../common/pagination/pagination';
 
 const CatalogPage = () => {
   const BASE_URL = 'http://localhost:3001';
@@ -94,7 +95,7 @@ const CatalogPage = () => {
           <div className='flex my-[60px]'>
             <Title className='text-4xl font-medium text-[#363853]' tag='h2'>Каталог продуктов</Title>
           </div>
-          <div className='flex'>
+          <div className='flex mb-28'>
             {
               category && <div className='mr-[30px] max-w-[270px] w-full'>
                 <SideBar
@@ -105,11 +106,16 @@ const CatalogPage = () => {
                 />
               </div>
             }
-            {
-              !isLoaded
-                ? 'Загрузка...'
-                : <Food className='grid grid-cols-4 gap-2.5' items={filteredFood} />
-            }
+            <div>
+              {
+                !isLoaded
+                  ? 'Загрузка...'
+                  : <Food className='grid grid-cols-4 gap-2.5 mb-[60px]' items={filteredFood} />
+              }
+              <div className="flex justify-center">
+                <Pagination />
+              </div>
+            </div>
           </div>
         </div>
       </>

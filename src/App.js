@@ -7,7 +7,7 @@ import Catalog from './layouts/catalog/catalog';
 
 function App() {
   return (
-    <div className='App bg-[#F9FAFF] h-screen'>
+    <div className='App'>
       <Header />
       <Switch>
         <Route path='/catalog/:productId?' component={Catalog} />
