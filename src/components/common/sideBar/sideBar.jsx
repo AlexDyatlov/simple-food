@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Title from '../title/title';
 import Button from '../button/button';
 
-const SideBar = ({ title, items }) => {
+const SideBar = ({ title, items, onItemSelect, selectedItem }) => {
   return (
     <div className="bg-white w-full border border-[#ECECEC] rounded-[5px]">
       <Title className='text-2xl text-[#363853] mb-6 tracking-[.003em] p-[15px] border-b border-b-[#ECECEC]' tag='h3'>{title}</Title>
@@ -13,8 +13,12 @@ const SideBar = ({ title, items }) => {
           items.map(item => (
             <li key={item._id}>
               <Button
-                className='text-[#31352B]'
+                className={
+                  'text-[#31352B] hover:text-[#FF6838] transition-colors' +
+                  (selectedItem === item ? ' text-[#FF6838]' : '')
+                }
                 tag='btn'
+                onClick={() => onItemSelect(item)}
               >
                 {item.name}
               </Button>
@@ -28,7 +32,9 @@ const SideBar = ({ title, items }) => {
 
 SideBar.propTypes = {
   title: PropTypes.string.isRequired,
-  items: PropTypes.array.isRequired
+  items: PropTypes.array.isRequired,
+  onItemSelect: PropTypes.func,
+  selectedItem: PropTypes.object
 };
 
 export default SideBar;

@@ -36,13 +36,6 @@
       "category": "burger"
     },
     {
-      "id": "s1hv963b4ffgzavk4z0n5006",
-      "imageUrl": "burger-4",
-      "name": "Черный гамбургер",
-      "price": 199,
-      "category": "burger"
-    },
-    {
       "id": "s1hv963b4ffgzavk4z0n5007",
       "imageUrl": "pizza-1",
       "name": "Пепперони",
@@ -54,6 +47,20 @@
       "imageUrl": "pizza-2",
       "name": "Ветчина и грибы",
       "price": 370,
+      "category": "pizza"
+    },
+    {
+      "id": "s1hv963b4ffgzavk4z0n5009",
+      "imageUrl": "pizza-3",
+      "name": "Маргарита",
+      "price": 360,
+      "category": "pizza"
+    },
+    {
+      "id": "s1hv963b4ffgzavk4z0n5010",
+      "imageUrl": "pizza-4",
+      "name": "Мясная",
+      "price": 400,
       "category": "pizza"
     }
   ],

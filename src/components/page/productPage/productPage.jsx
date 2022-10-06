@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-import Header from '../../ui/header/header';
 import Breadcrumbs from '../../common/breadcrumbs/breadcrumbs';
 import Title from '../../common/title/title';
 import SvgIcon from '../../common/svgIcon/svgIcon';
@@ -22,8 +21,7 @@ const ProductPage = ({ productId }) => {
 
   if (food) {
     return (
-      <div className='App bg-[#F9FAFF] h-screen'>
-        <Header />
+      <>
         <Breadcrumbs name={food.name} productId={productId} />
         <div className='flex max-w-[1170px] mx-auto px-4 pb-[60px] mt-[60px]'>
           <div className='h-[550px] w-[610px] flex items-center justify-center bg-white mr-[30px] border rounded-[5px]'>
@@ -89,9 +87,11 @@ const ProductPage = ({ productId }) => {
             </div>
           </div>
         </div>
-      </div>
+      </>
     );
   }
+
+  return 'Загрузка...';
 };
 
 export default ProductPage;
