@@ -6,13 +6,17 @@ import SideBar from '../../common/sideBar/sideBar';
 import Food from '../../ui/food/food';
 import Pagination from '../../common/pagination/pagination';
 
+import { paginate } from '../../../utils/paginate';
+
 const CatalogPage = () => {
+  const pageSize = 8;
   const BASE_URL = 'http://localhost:3001';
   const [error, setError] = useState(null);
   const [food, setFood] = useState([]);
   const [category, setCategory] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedCateg, setSelectedCateg] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
 
   const fetchAllFood = () => {
     return fetch(`${BASE_URL}/food`)
@@ -57,6 +61,14 @@ const CatalogPage = () => {
       : setSelectedCateg(item);
   };
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCateg]);
+
+  const handlePageChange = (pageIndex) => {
+    setCurrentPage(pageIndex);
+  };
+
   if (error) {
     return (
       <>
@@ -88,6 +100,9 @@ const CatalogPage = () => {
       filteredFood = filteredFood.filter(food => food.category === selectedCateg.value);
     };
 
+    const count = filteredFood.length;
+    const foodCrop = paginate(filteredFood, currentPage, pageSize);
+
     return (
       <>
         <Breadcrumbs />
@@ -106,15 +121,24 @@ const CatalogPage = () => {
                 />
               </div>
             }
-            <div>
+            <div className='w-full'>
               {
                 !isLoaded
                   ? 'Загрузка...'
-                  : <Food className='grid grid-cols-4 gap-2.5 mb-[60px]' items={filteredFood} />
+                  : (
+                    <>
+                      <Food className='grid grid-cols-4 gap-2.5 mb-[60px] auto-rows-[minmax(320px,_0)]' items={foodCrop} />
+                      <div className="flex justify-center">
+                        <Pagination
+                          totalCount={count}
+                          pageSize={pageSize}
+                          currentPage={currentPage}
+                          onPageChange={handlePageChange}
+                        />
+                      </div>
+                    </>
+                  )
               }
-              <div className="flex justify-center">
-                <Pagination />
-              </div>
             </div>
           </div>
         </div>

@@ -16,7 +16,7 @@ const PopularCategory = ({ items, onItemSelect, selectedItem }) => {
               <Button
                 className={
                   'text-xl text-[#363853] py-3 px-8 bg-white rounded-[5px] !border-[#ECECEC] flex items-center hover:bg-[#FF6838] hover:text-white' +
-                  (selectedItem === item ? ' bg-[#FF6838] text-[#ffffff]' : '')
+                  (selectedItem === item ? ' !bg-[#FF6838] text-[#ffffff]' : '')
                 }
                 tag='btn'
                 type='button'
