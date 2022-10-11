@@ -43,7 +43,7 @@ const Pagination = ({ totalCount, pageSize, currentPage, siblingCount = 1, onPag
             return (
               <li
                 className={
-                  'mr-1.5 flex justify-center items-center w-11 h-11 border-[1px] border-transparent rounded-[3px] transition-colors text-[18px] leading-none' +
+                  'mr-1.5 flex justify-center items-center w-11 h-11 border border-transparent rounded-[3px] transition-colors text-[18px] leading-none' +
                   (currentPage === page ? ' border-[#363853] hover:border-transparent active:border-transparent' : '')}
                 key={'page_' + page}
               >

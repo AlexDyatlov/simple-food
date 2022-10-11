@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
 
 import Breadcrumbs from '../../common/breadcrumbs/breadcrumbs';
 import Title from '../../common/title/title';
 import SideBar from '../../common/sideBar/sideBar';
 import Food from '../../ui/food/food';
 import Pagination from '../../common/pagination/pagination';
+import CustomSelect from '../../common/customSelect/customSelect';
 
 import { paginate } from '../../../utils/paginate';
 
 const CatalogPage = () => {
-  const pageSize = 8;
+  const [pageSize, setPageSize] = useState(8);
+  const pageSizeOptions = [4, 8, 12];
   const BASE_URL = 'http://localhost:3001';
   const [error, setError] = useState(null);
   const [food, setFood] = useState([]);
@@ -17,6 +20,21 @@ const CatalogPage = () => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedCateg, setSelectedCateg] = useState();
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortValue, setSortValue] = useState({ value: 'price', order: 'asc' });
+  const sortOptions = [
+    {
+      label: 'популярности',
+      value: 'rating'
+    },
+    {
+      label: 'названию',
+      value: 'name'
+    },
+    {
+      label: 'цене',
+      value: 'price'
+    }
+  ];
 
   const fetchAllFood = () => {
     return fetch(`${BASE_URL}/food`)
@@ -65,8 +83,16 @@ const CatalogPage = () => {
     setCurrentPage(1);
   }, [selectedCateg]);
 
-  const handlePageChange = (pageIndex) => {
+  const handleChangePage = (pageIndex) => {
     setCurrentPage(pageIndex);
+  };
+
+  const handleChangeSort = (item) => {
+    setSortValue(item);
+  };
+
+  const handleChangeSize = (number) => {
+    setPageSize(number);
   };
 
   if (error) {
@@ -101,14 +127,31 @@ const CatalogPage = () => {
     };
 
     const count = filteredFood.length;
-    const foodCrop = paginate(filteredFood, currentPage, pageSize);
+    const sortedFood = _.orderBy(filteredFood, [sortValue.value], [sortValue.order]);
+    const foodCrop = paginate(sortedFood, currentPage, pageSize);
 
     return (
       <>
         <Breadcrumbs />
         <div className='product-catalog max-w-[1170px] mx-auto px-4'>
-          <div className='flex my-[60px]'>
+          <div className='flex justify-between my-[60px]'>
             <Title className='text-4xl font-medium text-[#363853]' tag='h2'>Каталог продуктов</Title>
+            <div className='flex w-6/12 justify-end'>
+              <CustomSelect
+                className='max-w-[180px] w-full mr-[15px]'
+                defaultLabel='По'
+                selectedSort={sortValue}
+                onSort={handleChangeSort}
+                options={sortOptions}
+              />
+              <CustomSelect
+                className='max-w-[92px] w-full'
+                defaultLabel='По'
+                selectedSort={pageSize}
+                onSort={handleChangeSize}
+                options={pageSizeOptions}
+              />
+            </div>
           </div>
           <div className='flex mb-28'>
             {
@@ -128,12 +171,12 @@ const CatalogPage = () => {
                   : (
                     <>
                       <Food className='grid grid-cols-4 gap-2.5 mb-[60px] auto-rows-[minmax(320px,_0)]' items={foodCrop} />
-                      <div className="flex justify-center">
+                      <div className='flex justify-center'>
                         <Pagination
                           totalCount={count}
                           pageSize={pageSize}
                           currentPage={currentPage}
-                          onPageChange={handlePageChange}
+                          onPageChange={handleChangePage}
                         />
                       </div>
                     </>
