@@ -4,10 +4,13 @@ import Breadcrumbs from '../../common/breadcrumbs/breadcrumbs';
 import Title from '../../common/title/title';
 import SvgIcon from '../../common/svgIcon/svgIcon';
 import Button from '../../common/button/button';
+import TabItem from '../../common/tab/tabItem';
+import TabContent from '../../common/tab/tabContent';
 
 const ProductPage = ({ productId }) => {
   const BASE_URL = 'http://localhost:3001';
   const [food, setFood] = useState();
+  const [activeTab, setActiveTab] = useState('tab1');
 
   const getById = (id) => {
     return fetch(`${BASE_URL}/food`)
@@ -71,20 +74,28 @@ const ProductPage = ({ productId }) => {
           <div className='max-w-[690px] mx-auto mt-[30px]'>
             <ul className='flex mb-[30px]'>
               <li className='mr-[60px]'>
-                <Button className='text-2xl text-[#FF6838]' tag='btn' type='button'>Описание</Button>
+                <TabItem title='Описание' id='tab1' activeTab={activeTab} setActiveTab={setActiveTab} />
               </li>
               <li className='mr-[60px]'>
-                <Button className='text-2xl' tag='btn' type='button'>Характеристики</Button>
+                <TabItem title='Характеристики' id='tab2' activeTab={activeTab} setActiveTab={setActiveTab} />
               </li>
-              <li className=''>
-                <Button className='text-2xl' tag='btn' type='button'>Отзывы (2)</Button>
+              <li>
+                <TabItem title='Отзывы (2)' id='tab3' activeTab={activeTab} setActiveTab={setActiveTab} />
               </li>
             </ul>
-            <div className='text-xl text-[#31352B]'>
-              <p className='mb-5'>Рубленый бифштекс из натуральной говядины на карамелизованной булочке, с ломтиком сыра «Чеддер», кетчупом, горчицей, луком и маринованными огурчиками.</p>
-              <p className='mb-5'>Аллергены: Глютен, Молоко, Горчица, Может содержать сою, яйцо, следы кунжута.</p>
-              <p>Внешний вид товара может отличаться от изображений, представленных на сайте.</p>
-            </div>
+            <TabContent id='tab1' activeTab={activeTab}>
+              <div className='text-xl text-[#31352B]'>
+                <p className='mb-5'>Рубленый бифштекс из натуральной говядины на карамелизованной булочке, с ломтиком сыра «Чеддер», кетчупом, горчицей, луком и маринованными огурчиками.</p>
+                <p className='mb-5'>Аллергены: Глютен, Молоко, Горчица, Может содержать сою, яйцо, следы кунжута.</p>
+                <p>Внешний вид товара может отличаться от изображений, представленных на сайте.</p>
+              </div>
+            </TabContent>
+            <TabContent id='tab2' activeTab={activeTab}>
+              <p>Tab 2</p>
+            </TabContent>
+            <TabContent id='tab3' activeTab={activeTab}>
+              <p>Tab 3</p>
+            </TabContent>
           </div>
         </div>
       </>
