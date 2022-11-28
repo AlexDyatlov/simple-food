@@ -6,11 +6,15 @@ import SvgIcon from '../../common/svgIcon/svgIcon';
 import Button from '../../common/button/button';
 import TabItem from '../../common/tab/tabItem';
 import TabContent from '../../common/tab/tabContent';
+import Reviews from '../../ui/reviews/reviews';
+import CharacteristicsProduct from '../../ui/characteristicsProduct/characteristicsProduct';
+import DescriptionProduct from '../../ui/descriptionProduct/descriptionProduct';
+import StaticRating from '../../common/starRating/staticRating';
 
 const ProductPage = ({ productId }) => {
   const BASE_URL = 'http://localhost:3001';
   const [food, setFood] = useState();
-  const [activeTab, setActiveTab] = useState('tab1');
+  const [activeTab, setActiveTab] = useState('tab3');
 
   const getById = (id) => {
     return fetch(`${BASE_URL}/food`)
@@ -32,6 +36,9 @@ const ProductPage = ({ productId }) => {
           </div>
           <div className=''>
             <Title className='text-4xl font-medium text-[#363853] mb-[30px]' tag='h2'>{food.name}</Title>
+            <div className='mb-[25px]'>
+              <StaticRating rating={4} />
+            </div>
             <div className='text-[25px] font-medium text-[#363853] mb-[20px]'>{food.price} руб.</div>
             <div className='flex mb-[30px]'>
               <div className='flex mr-5'>
@@ -71,7 +78,7 @@ const ProductPage = ({ productId }) => {
         </div>
         <div className='border border-[#E4E4E4]'></div>
         <div className='max-w-[1170px] mx-auto px-4'>
-          <div className='max-w-[690px] mx-auto mt-[30px]'>
+          <div className='max-w-[690px] mx-auto mt-[30px] mb-[120px]'>
             <ul className='flex mb-[30px]'>
               <li className='mr-[60px]'>
                 <TabItem title='Описание' id='tab1' activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -84,17 +91,13 @@ const ProductPage = ({ productId }) => {
               </li>
             </ul>
             <TabContent id='tab1' activeTab={activeTab}>
-              <div className='text-xl text-[#31352B]'>
-                <p className='mb-5'>Рубленый бифштекс из натуральной говядины на карамелизованной булочке, с ломтиком сыра «Чеддер», кетчупом, горчицей, луком и маринованными огурчиками.</p>
-                <p className='mb-5'>Аллергены: Глютен, Молоко, Горчица, Может содержать сою, яйцо, следы кунжута.</p>
-                <p>Внешний вид товара может отличаться от изображений, представленных на сайте.</p>
-              </div>
+              <DescriptionProduct />
             </TabContent>
             <TabContent id='tab2' activeTab={activeTab}>
-              <p>Tab 2</p>
+              <CharacteristicsProduct />
             </TabContent>
             <TabContent id='tab3' activeTab={activeTab}>
-              <p>Tab 3</p>
+              <Reviews />
             </TabContent>
           </div>
         </div>
