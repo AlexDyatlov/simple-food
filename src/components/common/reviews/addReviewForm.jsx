@@ -20,26 +20,25 @@ const AddReviewForm = () => {
         <div className="flex justify-between mb-[30px]">
           <div className="max-w-[400px] w-full mr-[30px]">
             <TextAreaField
-              name=""
+              name="review"
               label="Ваш отзыв *"
               placeholder="Введите текст отзыва"
             />
           </div>
           <div className="w-full">
             <TextField
-              className="mb-2.5"
-              name=""
+              name="review-name"
               label="Имя"
               placeholder="Введите ваше имя"
             />
             <TextField
-              name=""
+              name="review-email"
               label="Email *"
               placeholder="youremail@mail.com"
             />
           </div>
         </div>
-        <CheckBoxField name="Чекбокс">
+        <CheckBoxField name="save">
           Сохранить моё имя, email и адрес сайта в этом браузере для последующих
           моих комментариев.
         </CheckBoxField>
