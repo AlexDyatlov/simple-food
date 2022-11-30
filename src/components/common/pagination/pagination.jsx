@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import SvgIcon from '../svgIcon/svgIcon';
 
-import { usePagination, DOTS } from '../../../utils/usePagination';
+import { usePagination, DOTS } from '../../../hooks/usePagination';
 
 const Pagination = ({ totalCount, pageSize, currentPage, siblingCount = 1, onPageChange }) => {
   const paginationRange = usePagination({ totalCount, pageSize, currentPage, siblingCount });
