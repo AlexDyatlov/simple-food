@@ -12,15 +12,14 @@ import CustomSelect from '../../common/customSelect/customSelect';
 import { paginate } from '../../../utils/paginate';
 
 import { getCategories } from '../../../store/categories';
+import { getFoods, getFoodsLoadingStatus } from '../../../store/foods';
 
 const CatalogPage = () => {
   const [pageSize, setPageSize] = useState(8);
   const pageSizeOptions = [4, 8, 12];
-  const BASE_URL = 'http://localhost:3001';
-  const [error, setError] = useState(null);
-  const [food, setFood] = useState([]);
+  const food = useSelector(getFoods());
   const category = useSelector(getCategories());
-  const [isLoaded, setIsLoaded] = useState(false);
+  const isLoading = useSelector(getFoodsLoadingStatus());
   const [selectedCateg, setSelectedCateg] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [sortValue, setSortValue] = useState({ value: 'price', order: 'asc' });
@@ -38,27 +37,6 @@ const CatalogPage = () => {
       value: 'price'
     }
   ];
-
-  const fetchAllFood = () => {
-    return fetch(`${BASE_URL}/food`)
-      .then(res => res.ok ? res.json() : Promise.reject(res))
-      .then(
-        (res) => {
-          setTimeout(() => {
-            setIsLoaded(true);
-            setFood(res);
-          }, 500);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  };
-
-  useEffect(() => {
-    fetchAllFood().then((data) => setFood(data));
-  }, []);
 
   const handleCategorySelect = (item) => {
     item?.value === selectedCateg?.value
@@ -82,31 +60,7 @@ const CatalogPage = () => {
     setPageSize(number);
   };
 
-  if (error) {
-    return (
-      <>
-        <Breadcrumbs />
-        <div className='product-catalog max-w-[1170px] mx-auto px-4'>
-          <div className='flex my-[60px]'>
-            <Title className='text-4xl font-medium text-[#363853]' tag='h2'>Каталог продуктов</Title>
-          </div>
-          <div className='flex'>
-            {
-              category && <div className='mr-[30px] max-w-[270px] w-full'>
-                <SideBar
-                  title='Категории'
-                  items={category}
-                  selectedItem={selectedCateg}
-                  onItemSelect={handleCategorySelect}
-                />
-              </div>
-            }
-            <div>Ошибка: {error.status + ' - ' + error.statusText}</div>;
-          </div>
-        </div>
-      </>
-    );
-  } else if (food) {
+  if (food) {
     let filteredFood = [...food];
 
     if (selectedCateg) {
@@ -153,7 +107,7 @@ const CatalogPage = () => {
             }
             <div className='w-full'>
               {
-                !isLoaded
+                isLoading
                   ? 'Загрузка...'
                   : (
                     <>

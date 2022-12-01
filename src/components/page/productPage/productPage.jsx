@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 import Breadcrumbs from '../../common/breadcrumbs/breadcrumbs';
 import Title from '../../common/title/title';
@@ -11,20 +12,11 @@ import CharacteristicsProduct from '../../ui/characteristicsProduct/characterist
 import DescriptionProduct from '../../ui/descriptionProduct/descriptionProduct';
 import StaticRating from '../../common/starRating/staticRating';
 
+import { getFoodById } from '../../../store/foods';
+
 const ProductPage = ({ productId }) => {
-  const BASE_URL = 'http://localhost:3001';
-  const [food, setFood] = useState();
+  const food = useSelector(getFoodById(productId));
   const [activeTab, setActiveTab] = useState('tab3');
-
-  const getById = (id) => {
-    return fetch(`${BASE_URL}/food`)
-      .then(res => res.json())
-      .then(res => res.find(res => res.id === id));
-  };
-
-  useEffect(() => {
-    getById(productId).then((data) => setFood(data));
-  }, []);
 
   if (food) {
     return (
@@ -37,7 +29,7 @@ const ProductPage = ({ productId }) => {
           <div className=''>
             <Title className='text-4xl font-medium text-[#363853] mb-[30px]' tag='h2'>{food.name}</Title>
             <div className='mb-[25px]'>
-              <StaticRating rating={4} />
+              <StaticRating rating={food.rate} />
             </div>
             <div className='text-[25px] font-medium text-[#363853] mb-[20px]'>{food.price} руб.</div>
             <div className='flex mb-[30px]'>

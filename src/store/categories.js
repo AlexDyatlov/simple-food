@@ -2,15 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 import categoryService from '../services/categoryService';
 
-import isOutdated from '../utils/isOutdated';
-
 const categoriesSlice = createSlice({
   name: 'categories',
   initialState: {
     entities: null,
     isLoading: true,
-    error: null,
-    lastFetch: null
+    error: null
   },
   reducers: {
     categoriesRequested: (state) => {
@@ -18,7 +15,6 @@ const categoriesSlice = createSlice({
     },
     categoriesReceived: (state, action) => {
       state.entities = action.payload;
-      state.lastFetch = Date.now();
       state.isLoading = false;
     },
     categoriesRequestFailed: (state, action) => {
@@ -32,17 +28,13 @@ const { reducer: categoriesReducer, actions } = categoriesSlice;
 const { categoriesRequested, categoriesReceived, categoriesRequestFailed } =
   actions;
 
-export const loadCategoriesList = () => async (dispatch, getState) => {
-  const { lastFetch } = getState().categories;
-
-  if (isOutdated(lastFetch)) {
-    dispatch(categoriesRequested());
-    try {
-      const { content } = await categoryService.get();
-      dispatch(categoriesReceived(content));
-    } catch (error) {
-      dispatch(categoriesRequestFailed(error.message));
-    }
+export const loadCategoriesList = () => async (dispatch) => {
+  dispatch(categoriesRequested());
+  try {
+    const { content } = await categoryService.get();
+    dispatch(categoriesReceived(content));
+  } catch (error) {
+    dispatch(categoriesRequestFailed(error.message));
   }
 };
 

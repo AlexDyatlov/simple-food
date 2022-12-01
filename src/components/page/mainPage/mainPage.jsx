@@ -1,39 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { getCategories } from '../../../store/categories';
+import { getFoods, getFoodsLoadingStatus, loadFoodsList } from '../../../store/foods';
 
 import Food from '../../ui/food/food';
 import PopularCategory from '../../ui/popularCategory/popularCategory';
 
 const MainPage = () => {
-  const BASE_URL = 'http://localhost:3001';
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
   const category = useSelector(getCategories());
-  const [food, setFood] = useState([]);
-  const [isLoaded, setIsLoaded] = useState(false);
+  const food = useSelector(getFoods());
   const [selectedCateg, setSelectedCateg] = useState();
-
-  const fetchAllFood = () => {
-    return fetch(`${BASE_URL}/food`)
-      .then(res => res.ok ? res.json() : Promise.reject(res))
-      .then(
-        (res) => {
-          setTimeout(() => {
-            setIsLoaded(true);
-            setFood(res);
-          }, 500);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
-  };
-
-  useEffect(() => {
-    fetchAllFood().then((data) => setFood(data));
-  }, []);
+  const isLoading = useSelector(getFoodsLoadingStatus());
 
   const handleCategorySelect = (item) => {
     item?.value === selectedCateg?.value
@@ -41,20 +20,11 @@ const MainPage = () => {
       : setSelectedCateg(item);
   };
 
-  if (error) {
-    return (
-      <div className='categoris max-w-[1170px] mx-auto px-4'>
-        {
-          category && <PopularCategory
-            items={category}
-            selectedItem={selectedCateg}
-            onItemSelect={handleCategorySelect}
-          />
-        }
-        <div>Ошибка: {error.status + ' - ' + error.statusText}</div>
-      </div>
-    );
-  } else if (food) {
+  useEffect(() => {
+    dispatch(loadFoodsList());
+  }, []);
+
+  if (food) {
     let filteredFood = [...food];
 
     if (selectedCateg) {
@@ -71,7 +41,7 @@ const MainPage = () => {
           />
         }
         {
-          !isLoaded
+          isLoading
             ? <div>Загрузка....</div>
             : <Food className='grid grid-cols-5 gap-[30px]' items={filteredFood} />
         }

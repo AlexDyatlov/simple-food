@@ -6,11 +6,13 @@ import Header from './components/ui/header/header';
 import Main from './layouts/main/main';
 import Catalog from './layouts/catalog/catalog';
 import { loadCategoriesList } from './store/categories';
+import { loadFoodsList } from './store/foods';
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(loadCategoriesList());
+    dispatch(loadFoodsList());
   }, []);
 
   return (
