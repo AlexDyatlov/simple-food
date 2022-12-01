@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { getCategories } from '../../../store/categories';
 
 import Food from '../../ui/food/food';
-
 import PopularCategory from '../../ui/popularCategory/popularCategory';
 
 const MainPage = () => {
   const BASE_URL = 'http://localhost:3001';
   const [error, setError] = useState(null);
-  const [category, setCategory] = useState([]);
+  const category = useSelector(getCategories());
   const [food, setFood] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedCateg, setSelectedCateg] = useState();
@@ -29,24 +31,8 @@ const MainPage = () => {
       );
   };
 
-  const fetchAllCategories = () => {
-    return fetch(`${BASE_URL}/categories`)
-      .then(res => res.ok ? res.json() : Promise.reject(res))
-      .then(
-        (res) => {
-          setTimeout(() => {
-            setCategory(res);
-          }, 0);
-        },
-        (error) => {
-          setError(error);
-        }
-      );
-  };
-
   useEffect(() => {
     fetchAllFood().then((data) => setFood(data));
-    fetchAllCategories().then((data) => setCategory(data));
   }, []);
 
   const handleCategorySelect = (item) => {

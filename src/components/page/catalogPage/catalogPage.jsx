@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import _ from 'lodash';
+import { useSelector } from 'react-redux';
 
 import Breadcrumbs from '../../common/breadcrumbs/breadcrumbs';
 import Title from '../../common/title/title';
@@ -10,13 +11,15 @@ import CustomSelect from '../../common/customSelect/customSelect';
 
 import { paginate } from '../../../utils/paginate';
 
+import { getCategories } from '../../../store/categories';
+
 const CatalogPage = () => {
   const [pageSize, setPageSize] = useState(8);
   const pageSizeOptions = [4, 8, 12];
   const BASE_URL = 'http://localhost:3001';
   const [error, setError] = useState(null);
   const [food, setFood] = useState([]);
-  const [category, setCategory] = useState([]);
+  const category = useSelector(getCategories());
   const [isLoaded, setIsLoaded] = useState(false);
   const [selectedCateg, setSelectedCateg] = useState();
   const [currentPage, setCurrentPage] = useState(1);
@@ -53,24 +56,8 @@ const CatalogPage = () => {
       );
   };
 
-  const fetchAllCategories = () => {
-    return fetch(`${BASE_URL}/categories`)
-      .then(res => res.ok ? res.json() : Promise.reject(res))
-      .then(
-        (res) => {
-          setTimeout(() => {
-            setCategory(res);
-          }, 0);
-        },
-        (error) => {
-          setError(error);
-        }
-      );
-  };
-
   useEffect(() => {
     fetchAllFood().then((data) => setFood(data));
-    fetchAllCategories().then((data) => setCategory(data));
   }, []);
 
   const handleCategorySelect = (item) => {
