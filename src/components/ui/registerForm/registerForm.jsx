@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import TextField from '../../common/form/textField/textField';
 import CheckBoxField from '../../common/form/checkBoxField/checkBoxField';
 import Button from '../../common/button/button';
 
 import { validator } from '../../../utils/validateRules';
+import { signUp } from '../../../store/users';
 
-const RegisterForm = () => {
+const RegisterForm = ({ close }) => {
+  const dispatch = useDispatch();
   const [data, setData] = useState({
     name: '',
     email: '',
@@ -81,7 +84,8 @@ const RegisterForm = () => {
 
     if (!isValid) return;
 
-    console.log(data);
+    dispatch(signUp(data));
+    close();
   };
 
   return (

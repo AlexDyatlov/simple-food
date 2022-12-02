@@ -8,6 +8,10 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const modalIsClose = isOpen !== false;
 
+  const toggleVisibleModal = () => {
+    setIsOpen(!isOpen);
+  };
+
   return (
     <>
       <nav className=''>
@@ -22,14 +26,14 @@ const NavBar = () => {
             <NavLink className='text-lg text-[#31352B]' activeClassName='text-[#FF6838]' to='/contacts'>Контакты</NavLink>
           </li>
           <li className='mr-11 last:mr-0'>
-            <button className='text-lg text-[#31352B]' onClick={() => setIsOpen(true)}>
+            <button className='text-lg text-[#31352B]' onClick={toggleVisibleModal}>
               Войти
             </button>
           </li>
         </ul>
       </nav>
-      <Modal isOpen={modalIsClose} close={() => setIsOpen(false)}>
-        {modalIsClose ? <Login /> : false}
+      <Modal isOpen={modalIsClose} close={toggleVisibleModal}>
+        {modalIsClose ? <Login close={toggleVisibleModal} /> : false}
       </Modal>
     </>
   );

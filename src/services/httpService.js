@@ -50,7 +50,8 @@ http.interceptors.response.use(
 );
 
 const httpService = {
-  get: http.get
+  get: http.get,
+  put: http.put
 };
 
 export default httpService;
