@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 import TextField from '../../common/form/textField/textField';
 import Button from '../../common/button/button';
-
-import { validator } from '../../../utils/validateRules';
 import CheckBoxField from '../../common/form/checkBoxField/checkBoxField';
 
-const LoginForm = () => {
+import { validator } from '../../../utils/validateRules';
+import { getAuthErrors, signIn } from '../../../store/users';
+
+const LoginForm = ({ close }) => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [data, setData] = useState({ email: '', password: '', stayOn: false });
   const [errors, setErrors] = useState({});
+  const loginError = useSelector(getAuthErrors());
 
   const handleChange = (target) => {
     setData((prevState) => ({
@@ -21,24 +27,11 @@ const LoginForm = () => {
     email: {
       isRequired: {
         message: 'Электронная почта обязательна для заполнения'
-      },
-      isEmail: {
-        message: 'Email введен некорректно'
       }
     },
     password: {
       isRequired: {
         message: 'Пароль обязателен для заполнения'
-      },
-      isCapitalSymbol: {
-        message: 'Пароль должен содержать хотя бы одну заглавную букву'
-      },
-      isContainDigit: {
-        message: 'Пароль должен содержать хотя бы одно число'
-      },
-      min: {
-        message: 'Пароль должен состоять минимум из 6 символов',
-        value: 6
       }
     }
   };
@@ -61,7 +54,12 @@ const LoginForm = () => {
 
     if (!isValid) return;
 
-    console.log(data);
+    const redirect = history.location.state
+      ? history.location.state.from.pathname
+      : '/';
+
+    dispatch(signIn({ payload: data, redirect }));
+    close();
   };
 
   return (
@@ -87,6 +85,7 @@ const LoginForm = () => {
       <CheckBoxField value={data.stayOn} onChange={handleChange} name="stayOn">
         Оставаться в системе
       </CheckBoxField>
+      {loginError && <p className="mt-4 text-red-600">{loginError}</p>}
       <Button
         className={
           'w-full text-lg mt-[30px] py-2 px-8 rounded-[5px] text-white bg-[#FF6838] ' +

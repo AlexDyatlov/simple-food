@@ -2,7 +2,9 @@ import { createAction, createSlice } from '@reduxjs/toolkit';
 
 import authService from '../services/authService';
 import userService from '../services/userService';
+import localStorageService from '../services/localStorageService';
 
+import { generateAuthError } from '../utils/generateAuthError';
 import history from '../utils/history';
 
 const usersSlice = createSlice({
@@ -30,6 +32,7 @@ const usersSlice = createSlice({
     authRequestSuccess: (state, action) => {
       state.auth = action.payload;
       state.isLoggedIn = true;
+      state.error = null;
     },
     authRequestFailed: (state, action) => {
       state.error = action.payload;
@@ -57,12 +60,34 @@ const authRequested = createAction('users/authRequested');
 const userCreateRequested = createAction('users/userCreateRequested');
 const createUserFailed = createAction('users/createUserFailed');
 
+export const signIn =
+  ({ payload, redirect }) =>
+    async (dispatch) => {
+      const { email, password } = payload;
+      dispatch(authRequested());
+      try {
+        const data = await authService.login({ email, password });
+        dispatch(authRequestSuccess({ userId: data.localId }));
+        localStorageService.setTokens(data);
+        history.push(redirect);
+      } catch (error) {
+        const { code, message } = error.response.data.error;
+        if (code === 400) {
+          const errorMessage = generateAuthError(message);
+          dispatch(authRequestFailed(errorMessage));
+        } else {
+          dispatch(authRequestFailed(error.message));
+        }
+      }
+    };
+
 export const signUp =
   ({ email, password, ...rest }) =>
     async (dispatch) => {
       dispatch(authRequested());
       try {
         const data = await authService.register({ email, password });
+        localStorageService.setTokens(data);
         dispatch(authRequestSuccess({ userId: data.localId }));
         dispatch(
           createUser({
@@ -101,5 +126,6 @@ export const loadUsersList = () => async (dispatch) => {
 
 export const getUsersList = () => (state) => state.users.entities;
 export const getUsersLoadingStatus = () => (state) => state.users.isLoading;
+export const getAuthErrors = () => (state) => state.users.error;
 
 export default usersReducer;

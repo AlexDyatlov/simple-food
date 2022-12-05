@@ -34,7 +34,7 @@ const Login = ({ close }) => {
           <Title className="text-2xl font-medium text-[#363853] mb-5" tag="h3">
             Вход на сайт
           </Title>
-          <LoginForm />
+          <LoginForm close={close} />
           <p className='mt-4'>
             Нет учетной записи ? <button className='text-[#1e43ff] underline underline-offset-2' type='button' onClick={toggleFormType}>Зарегистрироваться</button>{' '}
           </p>
