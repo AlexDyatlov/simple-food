@@ -1,15 +1,21 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getCurrentUserData } from '../../store/users';
+import { getCurrentUserData, getDataStatus, loadUsersList } from '../../store/users';
 
 import AdminPage from '../../components/page/adminPage';
 import UserPage from '../../components/page/userPage';
 
 const User = () => {
   const currentUser = useSelector(getCurrentUserData());
+  const dataStatus = useSelector(getDataStatus());
+  const dispatch = useDispatch();
 
-  if (!currentUser) return 'Загрузка...';
+  useEffect(() => {
+    if (!dataStatus) dispatch(loadUsersList());
+  }, []);
+
+  if (!dataStatus) return 'Загрузка...';
 
   return (
     <>
