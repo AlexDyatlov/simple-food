@@ -7,15 +7,27 @@ import localStorageService from '../services/localStorageService';
 import { generateAuthError } from '../utils/generateAuthError';
 import history from '../utils/history';
 
-const usersSlice = createSlice({
-  name: 'users',
-  initialState: {
+const initialState = localStorageService.getAccessToken()
+  ? {
     entities: null,
     isLoading: true,
     error: null,
+    auth: { userId: localStorageService.getUserId() },
+    isLoggedIn: true,
+    dataLoaded: false
+  }
+  : {
+    entities: null,
+    isLoading: false,
+    error: null,
     auth: null,
-    isLoggedIn: false
-  },
+    isLoggedIn: false,
+    dataLoaded: false
+  };
+
+const usersSlice = createSlice({
+  name: 'users',
+  initialState,
   reducers: {
     usersRequested: (state) => {
       state.isLoading = true;
@@ -127,5 +139,11 @@ export const loadUsersList = () => async (dispatch) => {
 export const getUsersList = () => (state) => state.users.entities;
 export const getUsersLoadingStatus = () => (state) => state.users.isLoading;
 export const getAuthErrors = () => (state) => state.users.error;
+export const getIsLoggedIn = () => (state) => state.users.isLoggedIn;
+export const getCurrentUserData = () => (state) => {
+  return state.users.entities
+    ? state.users.entities.find((u) => u._id === state.users.auth.userId)
+    : null;
+};
 
 export default usersReducer;

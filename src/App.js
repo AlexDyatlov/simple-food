@@ -5,6 +5,9 @@ import { useDispatch } from 'react-redux';
 import Header from './components/ui/header/header';
 import Main from './layouts/main/main';
 import Catalog from './layouts/catalog/catalog';
+import User from './layouts/user/user';
+import ProtectedRoute from './components/common/protectedRoute/protectedRoute';
+
 import { loadCategoriesList } from './store/categories';
 import { loadFoodsList } from './store/foods';
 import { loadUsersList } from './store/users';
@@ -21,6 +24,7 @@ function App() {
     <div className="App">
       <Header />
       <Switch>
+        <ProtectedRoute path="/user/:userId?" component={User} />
         <Route path="/catalog/:productId?" component={Catalog} />
         <Route path="/" exact component={Main} />
         <Redirect to="/" />

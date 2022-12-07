@@ -14,7 +14,8 @@ const RegisterForm = ({ close }) => {
     name: '',
     email: '',
     password: '',
-    license: false
+    license: false,
+    isAdmin: false
   });
   const [errors, setErrors] = useState({});
 
