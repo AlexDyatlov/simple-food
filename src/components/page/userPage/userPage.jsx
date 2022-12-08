@@ -8,7 +8,7 @@ const UserPage = ({ name, email, _id }) => {
       <div className="">Почта - {email}</div>
       <div className="mb-5">id - {_id}</div>
 
-      <NavLink className="text-lg text-[#31352B]" to="logout">
+      <NavLink className="text-lg text-[#31352B]" to="/logout">
         Выйти
       </NavLink>
     </div>
