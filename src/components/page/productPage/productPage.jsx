@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Breadcrumbs from '../../common/breadcrumbs/breadcrumbs';
 import Title from '../../common/title/title';
@@ -12,19 +12,50 @@ import CharacteristicsProduct from '../../ui/characteristicsProduct/characterist
 import DescriptionProduct from '../../ui/descriptionProduct/descriptionProduct';
 import StaticRating from '../../common/starRating/staticRating';
 
-import { getFoodById } from '../../../store/foods';
+import { deleteFood, getFoodById } from '../../../store/foods';
+import { getCurrentUserData, getIsLoggedIn } from '../../../store/users';
 
 const ProductPage = ({ productId }) => {
+  const dispatch = useDispatch();
   const food = useSelector(getFoodById(productId));
   const [activeTab, setActiveTab] = useState('tab3');
+  const isLoggedIn = useSelector(getIsLoggedIn());
+  const currentUser = useSelector(getCurrentUserData());
+
+  const handleRemoveProduct = (id) => {
+    dispatch(deleteFood(id));
+  };
 
   if (food) {
     return (
       <>
         <Breadcrumbs name={food.name} productId={productId} />
         <div className='flex max-w-[1170px] mx-auto px-4 pb-[60px] mt-[60px]'>
-          <div className='h-[550px] w-[610px] flex items-center justify-center bg-white mr-[30px] border rounded-[5px]'>
+          <div className='h-[550px] w-[610px] flex items-center justify-center bg-white mr-[30px] border rounded-[5px] relative'>
             <img src={require(`../../../assets/img/food/${food.imageUrl}.png`)} width='400' height='400' alt='' />
+            {
+              isLoggedIn
+                ? currentUser.isAdmin
+                  ? <div className="flex absolute right-5 top-5">
+                    <Button
+                      className='mr-2.5 flex items-center justify-center w-9 h-9 border border-gray-800 rounded text-gray-500 hover:text-black hover:border-text-black transition-colors'
+                      tag='btn'
+                      type='button'
+                    >
+                      <SvgIcon name='edit' size='20' className='' />
+                    </Button>
+                    <Button
+                      className='flex items-center justify-center w-9 h-9 border border-gray-800 rounded text-gray-500 hover:text-red-600 hover:border-red-600 transition-colors'
+                      tag='btn'
+                      type='button'
+                      onClick={() => handleRemoveProduct(productId)}
+                    >
+                      <SvgIcon name='bin' size='20' className='' />
+                    </Button>
+                  </div>
+                  : ''
+                : ''
+            }
           </div>
           <div className=''>
             <Title className='text-4xl font-medium text-[#363853] mb-[30px]' tag='h2'>{food.name}</Title>

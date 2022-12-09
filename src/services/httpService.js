@@ -68,7 +68,8 @@ http.interceptors.response.use(
 
 const httpService = {
   get: http.get,
-  put: http.put
+  put: http.put,
+  delete: http.delete
 };
 
 export default httpService;

@@ -1,8 +1,9 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAction, createSlice } from '@reduxjs/toolkit';
 
 import foodService from '../services/foodService';
 
 import isOutdated from '../utils/isOutdated';
+import history from '../utils/history';
 
 const foodsSlice = createSlice({
   name: 'foods',
@@ -24,12 +25,18 @@ const foodsSlice = createSlice({
     foodsRequestFailed: (state, action) => {
       state.error = action.payload;
       state.isLoading = false;
+    },
+    foodRemoved: (state, action) => {
+      state.entities = state.entities.filter((f) => f.id !== action.payload);
     }
   }
 });
 
 const { reducer: foodsReducer, actions } = foodsSlice;
-const { foodsRequested, foodsReceived, foodsRequestFailed } = actions;
+const { foodsRequested, foodsReceived, foodsRequestFailed, foodRemoved } = actions;
+
+const foodDeleteRequested = createAction('foods/foodDeleteRequested');
+const deleteFoodFailed = createAction('foods/deleteFoodFailed');
 
 export const loadFoodsList = () => async (dispatch, getState) => {
   const { lastFetch } = getState().foods;
@@ -42,6 +49,20 @@ export const loadFoodsList = () => async (dispatch, getState) => {
     } catch (error) {
       dispatch(foodsRequestFailed(error.message));
     }
+  }
+};
+
+export const deleteFood = (productId) => async (dispatch) => {
+  dispatch(foodDeleteRequested());
+  try {
+    const { content } = await foodService.removeFood(productId);
+    if (content === null) {
+      dispatch(foodRemoved(productId));
+    }
+    dispatch(foodRemoved(content));
+    history.push('/catalog');
+  } catch (error) {
+    dispatch(deleteFoodFailed(error.message));
   }
 };
 
