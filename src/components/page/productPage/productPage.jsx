@@ -11,6 +11,8 @@ import Reviews from '../../ui/reviews/reviews';
 import CharacteristicsProduct from '../../ui/characteristicsProduct/characteristicsProduct';
 import DescriptionProduct from '../../ui/descriptionProduct/descriptionProduct';
 import StaticRating from '../../common/starRating/staticRating';
+import Modal from '../../common/modal/modal';
+import EditProductForm from '../../ui/editProductForm/editProductForm';
 
 import { deleteFood, getFoodById } from '../../../store/foods';
 import { getCurrentUserData, getIsLoggedIn } from '../../../store/users';
@@ -19,8 +21,14 @@ const ProductPage = ({ productId }) => {
   const dispatch = useDispatch();
   const food = useSelector(getFoodById(productId));
   const [activeTab, setActiveTab] = useState('tab3');
+  const [isOpen, setIsOpen] = useState(false);
+  const modalIsClose = isOpen !== false;
   const isLoggedIn = useSelector(getIsLoggedIn());
   const currentUser = useSelector(getCurrentUserData());
+
+  const toggleVisibleModal = () => {
+    setIsOpen(!isOpen);
+  };
 
   const handleRemoveProduct = (id) => {
     dispatch(deleteFood(id));
@@ -41,6 +49,7 @@ const ProductPage = ({ productId }) => {
                       className='mr-2.5 flex items-center justify-center w-9 h-9 border border-gray-800 rounded text-gray-500 hover:text-black hover:border-text-black transition-colors'
                       tag='btn'
                       type='button'
+                      onClick={toggleVisibleModal}
                     >
                       <SvgIcon name='edit' size='20' className='' />
                     </Button>
@@ -124,6 +133,9 @@ const ProductPage = ({ productId }) => {
             </TabContent>
           </div>
         </div>
+        <Modal isOpen={modalIsClose} close={toggleVisibleModal}>
+          {modalIsClose ? <EditProductForm currentProductId={productId} close={toggleVisibleModal} /> : false}
+        </Modal>
       </>
     );
   }

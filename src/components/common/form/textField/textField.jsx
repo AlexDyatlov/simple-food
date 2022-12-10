@@ -33,7 +33,7 @@ const TextField = ({
           type={showPassword ? 'text' : type}
           name={name}
           className={
-            'flex-auto w-px min-w-0  py-4 px-[18px] border border-[#C2C2C2] focus:outline-none focus-visible:shadow-[0_0_0_2px_#FF6838] rounded-[5px] focus-visible:border-transparent placeholder:text-[#C1C1C1] placeholder:text-[16px] text-leading-5 ' +
+            'flex-auto w-px min-w-0 py-4 px-[18px] border border-[#C2C2C2] focus:outline-none focus-visible:shadow-[0_0_0_2px_#FF6838] rounded-[5px] focus-visible:border-transparent placeholder:text-[#C1C1C1] placeholder:text-[16px] text-leading-5 ' +
             (error ? 'shadow-[0_0_0_2px_#f10c0c]' : '')
           }
           placeholder={placeholder}
@@ -68,7 +68,10 @@ TextField.propTypes = {
   label: PropTypes.string,
   name: PropTypes.string,
   placeholder: PropTypes.string,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   onChange: PropTypes.func,
   error: PropTypes.string
 };

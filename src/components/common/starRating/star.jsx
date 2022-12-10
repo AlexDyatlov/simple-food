@@ -2,22 +2,29 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Star = ({
+  name,
   classFocus,
   className,
   value,
   rating,
   onMouseEnter,
   onMouseLeave,
-  onClick
+  onClick,
+  onChange
 }) => {
+  const handleChange = ({ target }) => {
+    onChange({ name: target.name, value: target.value });
+  };
+
   return (
     <label className="mr-1.5 last:mr-0">
       <input
         className={'sr-only ' + classFocus}
         type="radio"
-        name="rating"
+        name={name}
         value={value}
         onClick={onClick}
+        onChange={handleChange}
         tabIndex={classFocus ? 0 : -1}
       />
       <svg
@@ -52,13 +59,15 @@ const Star = ({
 };
 
 Star.propTypes = {
+  name: PropTypes.string,
   classFocus: PropTypes.string,
   className: PropTypes.string,
   value: PropTypes.number.isRequired,
   rating: PropTypes.number,
   onMouseEnter: PropTypes.func,
   onMouseLeave: PropTypes.func,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  onChange: PropTypes.func
 };
 
 export default Star;
