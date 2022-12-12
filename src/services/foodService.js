@@ -7,6 +7,10 @@ const foodService = {
     const { data } = await httpService.get(foodEndpoint);
     return data;
   },
+  update: async (payload) => {
+    const { data } = await httpService.patch(foodEndpoint + payload._id, payload);
+    return data;
+  },
   removeFood: async (productId) => {
     const { data } = await httpService.delete(foodEndpoint + productId);
     return data;

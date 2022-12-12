@@ -26,15 +26,20 @@ const foodsSlice = createSlice({
       state.error = action.payload;
       state.isLoading = false;
     },
+    foodUpdateSuccessed: (state, action) => {
+      state.entities[state.entities.findIndex((f) => f._id === action.payload._id)] = action.payload;
+    },
     foodRemoved: (state, action) => {
-      state.entities = state.entities.filter((f) => f.id !== action.payload);
+      state.entities = state.entities.filter((f) => f._id !== action.payload);
     }
   }
 });
 
 const { reducer: foodsReducer, actions } = foodsSlice;
-const { foodsRequested, foodsReceived, foodsRequestFailed, foodRemoved } = actions;
+const { foodsRequested, foodsReceived, foodsRequestFailed, foodUpdateSuccessed, foodRemoved } = actions;
 
+const foodUpdateRequested = createAction('foods/foodUpdateRequested');
+const foodUpdateFailed = createAction('foods/foodUpdateFailed');
 const foodDeleteRequested = createAction('foods/foodDeleteRequested');
 const deleteFoodFailed = createAction('foods/deleteFoodFailed');
 
@@ -49,6 +54,16 @@ export const loadFoodsList = () => async (dispatch, getState) => {
     } catch (error) {
       dispatch(foodsRequestFailed(error.message));
     }
+  }
+};
+
+export const updateFood = (payload) => async (dispatch) => {
+  dispatch(foodUpdateRequested());
+  try {
+    const { content } = await foodService.update(payload);
+    dispatch(foodUpdateSuccessed(content));
+  } catch (error) {
+    dispatch(foodUpdateFailed(error.message));
   }
 };
 
@@ -70,7 +85,7 @@ export const getFoods = () => (state) => state.foods.entities;
 export const getFoodsLoadingStatus = () => (state) => state.foods.isLoading;
 export const getFoodById = (productId) => (state) => {
   if (state.foods.entities) {
-    return state.foods.entities.find((f) => f.id === productId);
+    return state.foods.entities.find((f) => f._id === productId);
   }
 };
 

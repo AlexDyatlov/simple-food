@@ -8,8 +8,8 @@ const Food = ({ className, items }) => {
     <ul className={className}>
       {
         items.map(item => (
-          <li key={item.id}>
-            <ProductCard img={item.imageUrl} name={item.name} price={item.price} productId={item.id} />
+          <li key={item._id}>
+            <ProductCard img={item.imageUrl} name={item.name} price={item.price} productId={item._id} />
           </li>
         ))
       }
@@ -19,7 +19,6 @@ const Food = ({ className, items }) => {
 
 Food.propTypes = {
   className: PropTypes.string,
-  classNameElem: PropTypes.string,
   items: PropTypes.array.isRequired
 };
 

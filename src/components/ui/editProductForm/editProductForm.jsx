@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import Title from '../../common/title/title';
 import TextField from '../../common/form/textField/textField';
@@ -9,12 +10,13 @@ import Button from '../../common/button/button';
 
 import { validator } from '../../../utils/validateRules';
 
-import { getFoodById } from '../../../store/foods';
+import { getFoodById, updateFood } from '../../../store/foods';
 import { getCategories, getCategoriesLoadingStatus } from '../../../store/categories';
 
-const EditProductForm = ({ currentProductId }) => {
+const EditProductForm = ({ currentProductId, close }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [data, setData] = useState();
+  const dispatch = useDispatch();
   const currentProduct = useSelector(getFoodById(currentProductId));
   const categories = useSelector(getCategories());
   const categoriesLoading = useSelector(getCategoriesLoadingStatus());
@@ -75,13 +77,13 @@ const EditProductForm = ({ currentProductId }) => {
     const isValid = validate();
     if (!isValid) return;
 
-    const sendObj = {
+    dispatch(updateFood({
       ...data,
       price: Number(data.price),
       rate: Number(data.rate)
-    };
+    }));
 
-    console.log(sendObj);
+    close();
   };
 
   return (
@@ -142,6 +144,11 @@ const EditProductForm = ({ currentProductId }) => {
       )}
     </>
   );
+};
+
+EditProductForm.propTypes = {
+  currentProductId: PropTypes.string,
+  close: PropTypes.func
 };
 
 export default EditProductForm;
