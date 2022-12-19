@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 const chalk = require('chalk');
 const dotenv = require('dotenv');
+const initDatabase = require('./startUp/initDatabase');
 
 dotenv.config({ path: './config.env' });
 const app = express();
@@ -15,6 +16,9 @@ const urlMongo = process.env.MONGO_URI;
 
 async function start() {
   try {
+    mongoose.connection.once('open', () => {
+      initDatabase();
+    });
     await mongoose.connect(urlMongo, {
       useNewUrlParser: true,
       useUnifiedTopology: true

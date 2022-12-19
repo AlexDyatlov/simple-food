@@ -1,0 +1,27 @@
+[
+  {
+    "_id": "s1hv963b4ffgzavk4z0n5060",
+    "name": "Бургеры",
+    "value": "burger"
+  },
+  {
+    "_id": "s1hv963b4ffgzavk4z0n5061",
+    "name": "Пицца",
+    "value": "pizza"
+  },
+  {
+    "_id": "s1hv963b4ffgzavk4z0n5062",
+    "name": "Сендвичи",
+    "value": "sandwich"
+  },
+  {
+    "_id": "s1hv963b4ffgzavk4z0n5063",
+    "name": "Азиатская кухня",
+    "value": "chicken"
+  },
+  {
+    "_id": "s1hv963b4ffgzavk4z0n5064",
+    "name": "Сеты",
+    "value": "dishes"
+  }
+]
