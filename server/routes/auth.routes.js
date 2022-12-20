@@ -1,16 +1,44 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const router = express.Router({ mergeParams: true });
 
-router.post('/signUp', async(req, res) => {
+const User = require('../models/User');
+const tokenService = require('../services/token.service');
 
-})
+router.post('/signUp', async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-router.post('/signInWithPassword', async(req, res) => {
+    const exitingUser = await User.findOne({ email });
 
-})
+    if (exitingUser) {
+      return res.status(400).json({
+        error: {
+          message: 'EMAIL_EXISTS',
+          code: 400
+        }
+      });
+    }
 
-router.post('/token', async(req, res) => {
+    const hashedPassword = await bcrypt.hash(password, 12);
 
-})
+    const newUser = await User.create({
+      ...req.body,
+      password: hashedPassword
+    });
+
+    const tokens = tokenService.generate({ _id: newUser._id });
+
+    res.status(201).send({ ...tokens, userId: newUser._id });
+  } catch (error) {
+    res.status(500).json({
+      message: 'На сервере произошла ошибка. Попробуйте позже.'
+    });
+  }
+});
+
+router.post('/signInWithPassword', async (req, res) => {});
+
+router.post('/token', async (req, res) => {});
 
 module.exports = router;
