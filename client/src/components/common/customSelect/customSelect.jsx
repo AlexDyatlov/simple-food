@@ -46,6 +46,7 @@ const CustomSelect = ({
 
   useEffect(() => {
     document.body.addEventListener('click', handleOutsideClick);
+    return () => setVisibleSelect(false);
   }, []);
 
   return (

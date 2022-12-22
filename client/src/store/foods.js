@@ -71,7 +71,7 @@ export const deleteFood = (productId) => async (dispatch) => {
   dispatch(foodDeleteRequested());
   try {
     const { content } = await foodService.removeFood(productId);
-    if (content === null) {
+    if (!content) {
       dispatch(foodRemoved(productId));
     }
     dispatch(foodRemoved(content));

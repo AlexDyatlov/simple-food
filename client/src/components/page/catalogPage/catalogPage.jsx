@@ -26,7 +26,7 @@ const CatalogPage = () => {
   const sortOptions = [
     {
       label: 'популярности',
-      value: 'rating'
+      value: 'rate'
     },
     {
       label: 'названию',
