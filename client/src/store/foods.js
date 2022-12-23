@@ -31,17 +31,22 @@ const foodsSlice = createSlice({
     },
     foodRemoved: (state, action) => {
       state.entities = state.entities.filter((f) => f._id !== action.payload);
+    },
+    foodCreated: (state, action) => {
+      state.entities.push(action.payload);
     }
   }
 });
 
 const { reducer: foodsReducer, actions } = foodsSlice;
-const { foodsRequested, foodsReceived, foodsRequestFailed, foodUpdateSuccessed, foodRemoved } = actions;
+const { foodsRequested, foodsReceived, foodsRequestFailed, foodUpdateSuccessed, foodRemoved, foodCreated } = actions;
 
 const foodUpdateRequested = createAction('foods/foodUpdateRequested');
 const foodUpdateFailed = createAction('foods/foodUpdateFailed');
 const foodDeleteRequested = createAction('foods/foodDeleteRequested');
 const deleteFoodFailed = createAction('foods/deleteFoodFailed');
+const foodCreateRequested = createAction('foods/foodCreateRequested');
+const foodCreateFailed = createAction('foods/foodCreateFailed');
 
 export const loadFoodsList = () => async (dispatch, getState) => {
   const { lastFetch } = getState().foods;
@@ -54,6 +59,17 @@ export const loadFoodsList = () => async (dispatch, getState) => {
     } catch (error) {
       dispatch(foodsRequestFailed(error.message));
     }
+  }
+};
+
+export const createNewFood = (payload) => async (dispatch) => {
+  dispatch(foodCreateRequested());
+  try {
+    const { content } = await foodService.createFood(payload);
+    dispatch(foodCreated(content));
+    history.push(`/catalog/${content._id}`);
+  } catch (error) {
+    dispatch(foodCreateFailed(error.message));
   }
 };
 

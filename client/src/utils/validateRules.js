@@ -16,6 +16,11 @@ export function validator(data, config) {
       statusValidate = !emailRegExp.test(data);
       break;
     }
+    case 'isUrl': {
+      const urlRegExp = /^https:\/\/([\w.]+\/?)\S*/g;
+      statusValidate = !urlRegExp.test(data);
+      break;
+    }
     case 'isCapitalSymbol': {
       const capitalRegExp = /[A-Z]+/g;
       statusValidate = !capitalRegExp.test(data);

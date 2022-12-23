@@ -16,6 +16,27 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.post('/', auth, async (req, res) => {
+  try {
+    const adminUser = await User.find({ isAdmin: true });
+    const adminUserId = adminUser[0]._id.toString();
+
+    if (adminUserId === req.user._id) {
+      const newFood = await Food.create({
+        ...req.body
+      });
+
+      return res.status(201).send(newFood);
+    } else {
+      return res.status(403).json({ message: 'Доступ запрещен.' });
+    }
+  } catch (error) {
+    res.status(500).json({
+      message: 'На сервере произошла ошибка. Попробуйте позже.'
+    });
+  }
+});
+
 router.delete('/:productId', auth, async (req, res) => {
   try {
     const { productId } = req.params;
