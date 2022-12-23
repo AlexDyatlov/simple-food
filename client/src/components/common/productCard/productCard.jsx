@@ -7,7 +7,7 @@ import Button from '../button/button';
 const ProductCard = ({ img, name, price, productId }) => {
   return (
     <div className='py-5 px-4 h-full bg-white border text-center rounded-[5px] border-[#ECECEC] flex flex-col items-center'>
-      <img className='mb-2.5' src={require(`../../../assets/img/food/${img}.png`)} width='140' height='140' alt='text' />
+      <img className='mb-2.5 h-[140px] object-contain' src={img} width='140' height='140' alt={name} />
       <Link className='text-[15px] mb-2.5 underline' to={`catalog/${productId}`}>
         {name}
       </Link>

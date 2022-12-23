@@ -40,7 +40,7 @@ const ProductPage = ({ productId }) => {
         <Breadcrumbs name={food.name} productId={productId} />
         <div className='flex max-w-[1170px] mx-auto px-4 pb-[60px] mt-[60px]'>
           <div className='h-[550px] w-[610px] flex items-center justify-center bg-white mr-[30px] border rounded-[5px] relative'>
-            <img src={require(`../../../assets/img/food/${food.imageUrl}.png`)} width='400' height='400' alt='' />
+            <img src={food.imageUrl} width='400' height='400' alt={food.name} />
             {
               isLoggedIn
                 ? currentUser.isAdmin

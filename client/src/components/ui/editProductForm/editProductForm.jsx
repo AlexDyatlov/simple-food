@@ -45,11 +45,18 @@ const EditProductForm = ({ currentProductId, close }) => {
     name: {
       isRequired: {
         message: 'Введите новое название'
+      },
+      min: {
+        message: 'Название должно состоять минимум из 3 символов',
+        value: 3
       }
     },
     imageUrl: {
       isRequired: {
         message: 'Укажите ссылку на изображение'
+      },
+      isUrl: {
+        message: 'Ссылка должна начинаться с https и соответствовать спецификации URL'
       }
     },
     price: {
