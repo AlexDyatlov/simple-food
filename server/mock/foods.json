@@ -1,7 +1,7 @@
 [
   {
     "_id": "s1hv963b4ffgzavk4z0n5001",
-    "imageUrl": "burger-1",
+    "imageUrl": "https://raw.githubusercontent.com/student476/food-images/main/food/classicburger.jpg",
     "name": "Чизбургер с листьями салата",
     "price": 160,
     "rate": 4,
@@ -9,7 +9,7 @@
   },
   {
     "_id": "s1hv963b4ffgzavk4z0n5002",
-    "imageUrl": "burger-2",
+    "imageUrl": "https://raw.githubusercontent.com/student476/food-images/main/food/beefburger.png",
     "name": "Бифбургер",
     "price": 190,
     "rate": 5,
@@ -17,7 +17,7 @@
   },
   {
     "_id": "s1hv963b4ffgzavk4z0n5003",
-    "imageUrl": "burger-3",
+    "imageUrl": "https://raw.githubusercontent.com/student476/food-images/main/food/cheeseburger.png",
     "name": "Королевский чизбургер",
     "price": 260,
     "rate": 4,
@@ -25,7 +25,7 @@
   },
   {
     "_id": "s1hv963b4ffgzavk4z0n5004",
-    "imageUrl": "burger-4",
+    "imageUrl": "https://raw.githubusercontent.com/student476/food-images/main/food/bigburger.png",
     "name": "Черный гамбургер",
     "price": 199,
     "rate": 3,
@@ -33,7 +33,7 @@
   },
   {
     "_id": "s1hv963b4ffgzavk4z0n5005",
-    "imageUrl": "burger-5",
+    "imageUrl": "https://raw.githubusercontent.com/student476/food-images/main/food/chickenburger.png",
     "name": "Чикен бургер",
     "price": 180,
     "rate": 5,
@@ -41,7 +41,7 @@
   },
   {
     "_id": "s1hv963b4ffgzavk4z0n5007",
-    "imageUrl": "pizza-1",
+    "imageUrl": "https://raw.githubusercontent.com/student476/food-images/main/food/pepperonipizza.png",
     "name": "Пепперони",
     "price": 350,
     "rate": 4,
@@ -49,7 +49,7 @@
   },
   {
     "_id": "s1hv963b4ffgzavk4z0n5008",
-    "imageUrl": "pizza-2",
+    "imageUrl": "https://raw.githubusercontent.com/student476/food-images/main/food/mushroompizza.png",
     "name": "Ветчина и грибы",
     "price": 370,
     "rate": 2,
@@ -57,7 +57,7 @@
   },
   {
     "_id": "s1hv963b4ffgzavk4z0n5009",
-    "imageUrl": "pizza-3",
+    "imageUrl": "https://raw.githubusercontent.com/student476/food-images/main/food/margaritapizza.png",
     "name": "Маргарита",
     "price": 360,
     "rate": 5,
@@ -65,10 +65,34 @@
   },
   {
     "_id": "s1hv963b4ffgzavk4z0n5010",
-    "imageUrl": "pizza-4",
+    "imageUrl": "https://raw.githubusercontent.com/student476/food-images/main/food/meatpizza.png",
     "name": "Мясная",
     "price": 400,
     "rate": 4,
     "category": "pizza"
+  },
+  {
+    "_id": "s1hv963b4ffgzavk4z0n5011",
+    "imageUrl": "https://raw.githubusercontent.com/student476/food-images/main/food/hotappetizer.png",
+    "name": "Горячая закуска с томатами",
+    "price": 182,
+    "rate": 3,
+    "category": "dishes"
+  },
+  {
+    "_id": "s1hv963b4ffgzavk4z0n5012",
+    "imageUrl": "https://raw.githubusercontent.com/student476/food-images/main/food/asiancuisine.jpg",
+    "name": "Горячие роллы с семгой",
+    "price": 378,
+    "rate": 4,
+    "category": "chicken"
+  },
+  {
+    "_id": "s1hv963b4ffgzavk4z0n5013",
+    "imageUrl": "https://raw.githubusercontent.com/student476/food-images/main/food/chickensandwich.png",
+    "name": "Сэндвич с цыпленком и томатами",
+    "price": 210,
+    "rate": 5,
+    "category": "sandwich"
   }
 ]
