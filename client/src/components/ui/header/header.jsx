@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import NavBar from '../navBar/navBar';
 import SvgIcon from '../../common/svgIcon/svgIcon';
+import Basket from '../basket/basket';
 
 import logo from '../../../assets/img/logo.svg';
 
 const Header = () => {
+  const [cartOpened, setCartOpened] = useState(false);
+
   return (
-    <div>
+    <>
       <div className='max-w-[1170px] mx-auto px-4'>
         <div className='flex justify-between py-14'>
           <Link className='' to='/'>
@@ -20,14 +23,21 @@ const Header = () => {
               <a className='inline-block mr-8' href='/'>
                 <SvgIcon name='search' size='24' className='text-transparent' />
               </a>
-              <a className='inline-block' href='/'>
+              <button className='flex relative' type='button' onClick={() => setCartOpened(true)}>
                 <SvgIcon name='cart' size='24' className='stroke-[#363853] text-transparent' />
-              </a>
+                <span className="absolute top-0 left-[18px] flex items-center justify-center w-3.5 h-3.5 bg-[#FF6838] rounded-full text-[10px] text-white">
+                  3
+                </span>
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
+      <Basket
+        opened={cartOpened}
+        onClose={() => setCartOpened(false)}
+      />
+    </>
   );
 };
 
