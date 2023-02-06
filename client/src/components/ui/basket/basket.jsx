@@ -1,111 +1,152 @@
 import React from 'react';
 import FocusLock from 'react-focus-lock';
-import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
+import { RemoveScroll } from 'react-remove-scroll';
+import { useDispatch, useSelector } from 'react-redux';
 
 import Title from '../../common/title/title';
 import SvgIcon from '../../common/svgIcon/svgIcon';
 import Button from '../../common/button/button';
+import EmptyBasketUnauthorized from './emptyBasketUnauthorized';
+import EmptyBasket from './emptyBasket';
+import ProductCardBasket from '../../common/productCard/productCardBasket';
 
-import { getIsLoggedIn } from '../../../store/users';
+import {
+  addProduct,
+  clearBasketToUser,
+  getCurrentUserData,
+  getIsLoggedIn,
+  minusProduct,
+  removeProduct,
+  sendBasketToUser
+} from '../../../store/users';
+import { getFoods } from '../../../store/foods';
 
 const Basket = ({ opened, onClose }) => {
+  const dispatch = useDispatch();
+  const currentUser = useSelector(getCurrentUserData());
+  const food = useSelector(getFoods());
   const isLoggedIn = useSelector(getIsLoggedIn());
 
+  const onClickRemove = (productId) => {
+    dispatch(removeProduct(productId));
+  };
+
+  const onClickClear = (userId) => {
+    dispatch(clearBasketToUser(userId));
+  };
+
+  const onClickPlus = (productId) => {
+    dispatch(addProduct({ _id: productId }));
+  };
+
+  const onClickMinus = (productId) => {
+    dispatch(minusProduct(productId));
+  };
+
+  const sendOrder = () => {
+    dispatch(sendBasketToUser(currentUser.basket));
+    return alert('Заказ отправлен!');
+  };
+
   return (
-    <FocusLock returnFocus={true} disabled={!opened}>
-      <div
-        className={
-          'fixed inset-0 bg-[#1a1b1e]/50 z-[100] invisible opacity-0 transition-[visibility,opacity] ' +
-          (opened ? '!visible opacity-100' : '')
-        }
-      >
+    <FocusLock returnFocus={true} disabled={!opened} preventScroll={true}>
+      <RemoveScroll enabled={opened}>
         <div
           className={
-            'absolute right-0 w-[420px] h-full bg-white p-[30px] shadow-[10px_4px_24px_#000000] translate-x-full transition-transform ' +
-            (opened ? 'translate-x-0' : '')
+            'fixed inset-0 bg-[#1a1b1e]/50 z-[100] invisible opacity-0 transition-[visibility,opacity] ' +
+            (opened ? '!visible opacity-100' : '')
           }
         >
-          <div className="flex justify-between mb-[30px]">
-            <Title className="text-4xl font-medium text-[#363853]">
-              Корзина
-            </Title>
-            <button
-              className="flex items-center justify-center w-10 h-10"
-              onClick={onClose}
-            >
-              <SvgIcon name="close" size="24" className="text-black" />
-            </button>
-          </div>
+          <div
+            className={
+              'overflow-y-scroll absolute right-0 w-[420px] h-full bg-white p-[30px] shadow-[10px_4px_24px_#000000] translate-x-full transition-transform ' +
+              (opened ? 'translate-x-0' : '')
+            }
+          >
+            <div className="flex justify-between mb-[30px]">
+              <Title className="text-4xl font-medium text-[#363853]">
+                Корзина
+              </Title>
+              <button
+                className="flex items-center justify-center w-10 h-10"
+                onClick={onClose}
+              >
+                <SvgIcon name="close" size="24" className="text-black" />
+              </button>
+            </div>
 
-          {/* <div className="">
-            <div className="flex items-center border rounded-2xl border-slate-200 mb-5 last:mb-0 p-5">
-              <img
-                className="shrink-0 mr-4"
-                src={require('../../../assets/img/food/pizza-1.png')}
-                alt="Маргарита"
-                width="70"
-                height="70"
-              />
-              <div className="mr-4">
-                <Title className="mb-2 text-[18px] font-medium leading-none text-black">
-                  Маргарита
-                </Title>
-                <div className="text-[16px] text-slate-400 leading-none">
-                  Пицца
+            {isLoggedIn ? (
+              currentUser ? (
+                <div>
+                  {food &&
+                    food.map((foodItem) => {
+                      return currentUser.basket.map((item) => {
+                        return foodItem._id === item._id ? (
+                          <ProductCardBasket
+                            key={foodItem._id}
+                            remove={() => onClickRemove(foodItem._id)}
+                            minus={() => onClickMinus(foodItem._id)}
+                            plus={() => onClickPlus(foodItem._id)}
+                            itemCount={item.count}
+                            {...foodItem}
+                          />
+                        ) : (
+                          ''
+                        );
+                      });
+                    })}
+
+                  {currentUser.basket.length > 0 && (
+                    <>
+                      {currentUser.totalPrice && (
+                        <p>Сумма заказа: {currentUser.totalPrice}</p>
+                      )}
+                      <Button
+                        className="w-full text-lg mt-[30px] py-3 px-8 rounded-2xl text-white bg-[#FF6838]"
+                        tag="btn"
+                        type="button"
+                        onClick={sendOrder}
+                      >
+                        Оформить заказ
+                      </Button>
+                      <Button
+                        className="w-full text-lg mt-[30px] py-3 px-8 rounded-2xl text-white bg-[#bfbbbb]"
+                        tag="btn"
+                        type="button"
+                        onClick={() => onClickClear(currentUser._id)}
+                      >
+                        Очистить корзину
+                      </Button>
+                    </>
+                  )}
                 </div>
-              </div>
-              <div className="shrink-0 ml-auto font-medium text-black">
-                360 руб.
-              </div>
-            </div>
-          </div> */}
+              ) : (
+                ''
+              )
+            ) : (
+              ''
+            )}
 
-          {!isLoggedIn ? (
-            <div className="flex flex-col items-center justify-center h-[calc(100vh-130px)] text-center">
-              <Title className="text-2xl font-medium text-black mb-2">
-                Войдите на сайт
-              </Title>
-              <p className="text-gray-500">
-                Прежде чем оформить заказ, <br /> выполните вход на сайт
-              </p>
-              <Button
-                className="text-lg mt-[30px] py-3 px-8 rounded-2xl text-white bg-[#FF6838]"
-                tag="btn"
-                type="button"
-                onClick={onClose}
-              >
-                Вернуться назад
-              </Button>
-            </div>
-          ) : (
-            <div className="flex flex-col items-center justify-center h-[calc(100vh-130px)] text-center">
-              <SvgIcon
-                name="empty-box"
-                size="120"
-                className="text-[#FF6838] mb-5"
-              />
-              <Title className="text-2xl font-medium text-black mb-2">
-                Ваша корзина пуста
-              </Title>
-              <p className="text-gray-500">
-                Необходимо добавить товары в корзину, прежде чем перейти к
-                оформлению заказа
-              </p>
-              <Button
-                className="text-lg mt-[30px] py-3 px-8 rounded-2xl text-white bg-[#FF6838]"
-                tag="btn"
-                type="button"
-                onClick={onClose}
-              >
-                Вернуться назад
-              </Button>
-            </div>
-          )}
-
+            {!currentUser?.basket.length ? (
+              !isLoggedIn ? (
+                <EmptyBasketUnauthorized close={onClose} />
+              ) : (
+                <EmptyBasket close={onClose} />
+              )
+            ) : (
+              ''
+            )}
+          </div>
         </div>
-      </div>
+      </RemoveScroll>
     </FocusLock>
   );
+};
+
+Basket.propTypes = {
+  onClose: PropTypes.func.isRequired,
+  opened: PropTypes.bool.isRequired
 };
 
 export default Basket;

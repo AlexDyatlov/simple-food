@@ -13,9 +13,10 @@ import DescriptionProduct from '../../ui/descriptionProduct/descriptionProduct';
 import StaticRating from '../../common/starRating/staticRating';
 import Modal from '../../common/modal/modal';
 import EditProductForm from '../../ui/editProductForm/editProductForm';
+import Login from '../../ui/login/login';
 
 import { deleteFood, getFoodById } from '../../../store/foods';
-import { getCurrentUserData, getIsLoggedIn } from '../../../store/users';
+import { addProduct, getCurrentFoodData, getCurrentUserData, getIsLoggedIn, minusProduct } from '../../../store/users';
 
 const ProductPage = ({ productId }) => {
   const dispatch = useDispatch();
@@ -25,6 +26,23 @@ const ProductPage = ({ productId }) => {
   const modalIsClose = isOpen !== false;
   const isLoggedIn = useSelector(getIsLoggedIn());
   const currentUser = useSelector(getCurrentUserData());
+  const currentFoodBasket = useSelector(getCurrentFoodData({ currentUser, productId }));
+  const handleAddedProductToCart = () => {
+    const item = {
+      _id: productId,
+      price: food.price
+    };
+
+    dispatch(addProduct(item));
+  };
+
+  const onClickPlus = () => {
+    dispatch(addProduct({ _id: productId, price: food.price }));
+  };
+
+  const onClickMinus = () => {
+    dispatch(minusProduct(productId));
+  };
 
   const toggleVisibleModal = () => {
     setIsOpen(!isOpen);
@@ -73,27 +91,33 @@ const ProductPage = ({ productId }) => {
             </div>
             <div className='text-[25px] font-medium text-[#363853] mb-[20px]'>{food.price} руб.</div>
             <div className='flex mb-[30px]'>
-              <div className='flex mr-5'>
+              {currentFoodBasket && <div className='flex mr-5'>
                 <Button
-                  className='bg-[#FF6838] p-3 text-white rounded-l-[3px] flex items-center justify-center'
+                  className={'bg-[#FF6838] p-3 text-white rounded-l-[3px] flex items-center justify-center ' + (currentFoodBasket?.count <= 1
+                    ? 'cursor-not-allowed'
+                    : '')}
                   tag='btn'
                   type='button'
+                  onClick={onClickMinus}
+                  disabled={currentFoodBasket?.count <= 1 && true}
                 >
                   <SvgIcon name='minus' size='20' className='' />
                 </Button>
-                <div className='min-w-[70px] bg-[#FAEDED] text-[#363853] text-[20px] px-[17px] py-2.5 flex items-center justify-center'>1</div>
+                <div className='min-w-[70px] bg-[#FAEDED] text-[#363853] text-[20px] px-[17px] py-2.5 flex items-center justify-center'>{currentFoodBasket?.count}</div>
                 <Button
                   className='bg-[#FF6838] p-3 text-white rounded-r-[3px] flex items-center justify-center'
                   tag='btn'
                   type='button'
+                  onClick={onClickPlus}
                 >
                   <SvgIcon name='plus' size='20' className='' />
                 </Button>
-              </div>
+              </div>}
               <Button
                 className='bg-[#FF6838] py-3.5 px-9 font-medium text-white text-sm rounded-[3px] flex items-center'
                 tag='btn'
                 type='button'
+                onClick={!isLoggedIn ? toggleVisibleModal : handleAddedProductToCart}
               >
                 <SvgIcon name='cart' size='20' className='mr-4 stroke-[#fff] text-transparent' />
                 Добавить в корзину
@@ -133,9 +157,15 @@ const ProductPage = ({ productId }) => {
             </TabContent>
           </div>
         </div>
-        <Modal isOpen={modalIsClose} close={toggleVisibleModal}>
-          {modalIsClose ? <EditProductForm currentProductId={productId} close={toggleVisibleModal} /> : false}
-        </Modal>
+        {!isLoggedIn ? (
+          <Modal isOpen={modalIsClose} close={toggleVisibleModal}>
+            {modalIsClose ? <Login close={toggleVisibleModal} /> : false}
+          </Modal>
+        ) : (
+          <Modal isOpen={modalIsClose} close={toggleVisibleModal}>
+            {modalIsClose ? <EditProductForm currentProductId={productId} close={toggleVisibleModal} /> : false}
+          </Modal>
+        )}
       </>
     );
   }

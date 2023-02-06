@@ -6,6 +6,8 @@ import { getFoods, getFoodsLoadingStatus, loadFoodsList } from '../../../store/f
 
 import Food from '../../ui/food/food';
 import PopularCategory from '../../ui/popularCategory/popularCategory';
+import Modal from '../../common/modal/modal';
+import Login from '../../ui/login/login';
 
 const MainPage = () => {
   const dispatch = useDispatch();
@@ -13,11 +15,17 @@ const MainPage = () => {
   const food = useSelector(getFoods());
   const [selectedCateg, setSelectedCateg] = useState();
   const isLoading = useSelector(getFoodsLoadingStatus());
+  const [isOpen, setIsOpen] = useState(false);
+  const modalIsClose = isOpen !== false;
 
   const handleCategorySelect = (item) => {
     item?.value === selectedCateg?.value
       ? setSelectedCateg()
       : setSelectedCateg(item);
+  };
+
+  const toggleVisibleModal = () => {
+    setIsOpen(!isOpen);
   };
 
   useEffect(() => {
@@ -32,20 +40,25 @@ const MainPage = () => {
     };
 
     return (
-      <div className='categoris max-w-[1170px] mx-auto px-4'>
-        {
-          category && <PopularCategory
-            items={category}
-            selectedItem={selectedCateg}
-            onItemSelect={handleCategorySelect}
-          />
-        }
-        {
-          isLoading
-            ? <div>Загрузка....</div>
-            : <Food className='grid grid-cols-5 gap-[30px]' items={filteredFood} />
-        }
-      </div>
+      <>
+        <div className='categoris max-w-[1170px] mx-auto px-4'>
+          {
+            category && <PopularCategory
+              items={category}
+              selectedItem={selectedCateg}
+              onItemSelect={handleCategorySelect}
+            />
+          }
+          {
+            isLoading
+              ? <div>Загрузка....</div>
+              : <Food className='grid grid-cols-5 gap-[30px]' items={filteredFood} onLoginBasket={toggleVisibleModal} />
+          }
+        </div>
+        <Modal isOpen={modalIsClose} close={toggleVisibleModal}>
+          {modalIsClose ? <Login close={toggleVisibleModal} /> : false}
+        </Modal>
+      </>
     );
   };
 

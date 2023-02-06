@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import NavBar from '../navBar/navBar';
 import SvgIcon from '../../common/svgIcon/svgIcon';
@@ -7,8 +8,12 @@ import Basket from '../basket/basket';
 
 import logo from '../../../assets/img/logo.svg';
 
+import { getCurrentUserData } from '../../../store/users';
+
 const Header = () => {
   const [cartOpened, setCartOpened] = useState(false);
+  const currentUser = useSelector(getCurrentUserData());
+  const totalCount = currentUser?.basket.reduce((sum, item) => sum + item.count, 0);
 
   return (
     <>
@@ -25,9 +30,11 @@ const Header = () => {
               </a>
               <button className='flex relative' type='button' onClick={() => setCartOpened(true)}>
                 <SvgIcon name='cart' size='24' className='stroke-[#363853] text-transparent' />
-                <span className="absolute top-0 left-[18px] flex items-center justify-center w-3.5 h-3.5 bg-[#FF6838] rounded-full text-[10px] text-white">
-                  3
-                </span>
+                {totalCount > 0 && (
+                  <span className="absolute top-0 left-[18px] flex items-center justify-center w-3.5 h-3.5 bg-[#FF6838] rounded-full text-[10px] text-white">
+                    {totalCount}
+                  </span>
+                )}
               </button>
             </div>
           </div>

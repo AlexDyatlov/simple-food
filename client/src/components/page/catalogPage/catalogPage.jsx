@@ -8,6 +8,8 @@ import SideBar from '../../common/sideBar/sideBar';
 import Food from '../../ui/food/food';
 import Pagination from '../../common/pagination/pagination';
 import CustomSelect from '../../common/customSelect/customSelect';
+import Modal from '../../common/modal/modal';
+import Login from '../../ui/login/login';
 
 import { paginate } from '../../../utils/paginate';
 
@@ -23,6 +25,8 @@ const CatalogPage = () => {
   const [selectedCateg, setSelectedCateg] = useState();
   const [currentPage, setCurrentPage] = useState(1);
   const [sortValue, setSortValue] = useState({ value: 'price', order: 'asc' });
+  const [isOpen, setIsOpen] = useState(false);
+  const modalIsClose = isOpen !== false;
   const sortOptions = [
     {
       label: 'популярности',
@@ -58,6 +62,10 @@ const CatalogPage = () => {
 
   const handleChangeSize = (number) => {
     setPageSize(number);
+  };
+
+  const toggleVisibleModal = () => {
+    setIsOpen(!isOpen);
   };
 
   if (food) {
@@ -111,7 +119,7 @@ const CatalogPage = () => {
                   ? 'Загрузка...'
                   : (
                     <>
-                      <Food className='grid grid-cols-4 gap-2.5 mb-[60px] auto-rows-[minmax(320px,_0)]' items={foodCrop} />
+                      <Food className='grid grid-cols-4 gap-2.5 mb-[60px] auto-rows-[minmax(320px,_0)]' items={foodCrop} onLoginBasket={toggleVisibleModal} />
                       <div className='flex justify-center'>
                         <Pagination
                           totalCount={count}
@@ -126,6 +134,9 @@ const CatalogPage = () => {
             </div>
           </div>
         </div>
+        <Modal isOpen={modalIsClose} close={toggleVisibleModal}>
+          {modalIsClose ? <Login close={toggleVisibleModal} /> : false}
+        </Modal>
       </>
     );
   }
