@@ -1,6 +1,6 @@
 const TOKEN_KEY = 'jwt-token';
 const REFRESH_KEY = 'jwt-refresh-token';
-const EXPIRES_KEY = 'jwt_expires';
+const EXPIRES_KEY = 'jwt-expires';
 const USERID_KEY = 'user-local-id';
 
 export function setTokens({

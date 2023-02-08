@@ -24,7 +24,7 @@ http.interceptors.request.use(
         localStorageService.setTokens({
           refreshToken: data.refresh_token,
           idToken: data.id_token,
-          expiresIn: data.expires_id,
+          expiresIn: data.expires_in,
           localId: data.user_id
         });
       }
@@ -70,7 +70,7 @@ http.interceptors.response.use(
   },
   function (error) {
     const expectedErrors =
-      error.request &&
+      error.response &&
       error.response.status >= 400 &&
       error.response.status < 500;
 
