@@ -55,7 +55,7 @@ const NavBar = () => {
         </ul>
       </nav>
       <Modal isOpen={modalIsClose} close={toggleVisibleModal}>
-        {modalIsClose ? <Login close={toggleVisibleModal} /> : false}
+        {modalIsClose ? <Login /> : false}
       </Modal>
     </>
   );

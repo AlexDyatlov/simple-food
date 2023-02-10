@@ -9,7 +9,7 @@ import CheckBoxField from '../../common/form/checkBoxField/checkBoxField';
 import { validator } from '../../../utils/validateRules';
 import { getAuthErrors, signIn } from '../../../store/users';
 
-const LoginForm = ({ close }) => {
+const LoginForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [data, setData] = useState({ email: '', password: '', stayOn: false });
@@ -59,7 +59,6 @@ const LoginForm = ({ close }) => {
       : '/';
 
     dispatch(signIn({ payload: data, redirect }));
-    close();
   };
 
   return (

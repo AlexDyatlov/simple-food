@@ -5,7 +5,7 @@ import Title from '../../common/title/title';
 import LoginForm from '../loginForm/loginForm';
 import RegisterForm from '../registerForm/registerForm';
 
-const Login = ({ close }) => {
+const Login = () => {
   const { type } = useParams();
   const [formType, setFormType] = useState(
     type === 'register' ? type : 'login'
@@ -24,7 +24,7 @@ const Login = ({ close }) => {
           <Title className="text-2xl font-medium text-[#363853] mb-5" tag="h3">
             Регистрация
           </Title>
-          <RegisterForm close={close} />
+          <RegisterForm />
           <p className='mt-4'>
             Есть аккаунт ? <button className='text-[#1e43ff] underline underline-offset-2' type='button' onClick={toggleFormType}>Войти</button>{' '}
           </p>
@@ -34,7 +34,7 @@ const Login = ({ close }) => {
           <Title className="text-2xl font-medium text-[#363853] mb-5" tag="h3">
             Вход на сайт
           </Title>
-          <LoginForm close={close} />
+          <LoginForm />
           <p className='mt-4'>
             Нет учетной записи ? <button className='text-[#1e43ff] underline underline-offset-2' type='button' onClick={toggleFormType}>Зарегистрироваться</button>{' '}
           </p>

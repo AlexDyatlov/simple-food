@@ -56,7 +56,7 @@ const MainPage = () => {
           }
         </div>
         <Modal isOpen={modalIsClose} close={toggleVisibleModal}>
-          {modalIsClose ? <Login close={toggleVisibleModal} /> : false}
+          {modalIsClose ? <Login /> : false}
         </Modal>
       </>
     );

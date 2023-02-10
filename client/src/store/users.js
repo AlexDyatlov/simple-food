@@ -62,9 +62,6 @@ const usersSlice = createSlice({
       state.auth = null;
       state.dataLoaded = false;
     },
-    sendBasketSuccessed: (state, action) => {
-      console.log('action', action);
-    },
     addProduct: (state, action) => {
       const currentUser = state.entities.find((u) => u._id === state.auth.userId);
       const findItem = currentUser.basket.find((obj) => obj._id === action.payload._id);
@@ -112,12 +109,12 @@ export const {
   addProduct,
   removeProduct,
   minusProduct,
-  sendBasketSuccessed,
   clearBasket
 } = actions;
 
 const authRequested = createAction('users/authRequested');
 const sendBasketRequested = createAction('basket/sendBasketRequested');
+const sendBasketSuccess = createAction('basket/sendBasketSuccess');
 const sendBasketFailed = createAction('basket/sendBasketFailed');
 const basketClearRequested = createAction('foods/basketClearRequested');
 const basketClearFailed = createAction('foods/basketClearFailed');
@@ -196,7 +193,7 @@ export const sendBasketToUser = (payload) => async (dispatch) => {
   dispatch(sendBasketRequested());
   try {
     const { content } = await userService.createBasket(payload);
-    dispatch(sendBasketSuccessed(content));
+    dispatch(sendBasketSuccess(content));
   } catch (error) {
     dispatch(sendBasketFailed(error.message));
   }

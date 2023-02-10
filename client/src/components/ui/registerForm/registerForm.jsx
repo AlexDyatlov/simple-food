@@ -8,7 +8,7 @@ import Button from '../../common/button/button';
 import { validator } from '../../../utils/validateRules';
 import { signUp } from '../../../store/users';
 
-const RegisterForm = ({ close }) => {
+const RegisterForm = () => {
   const dispatch = useDispatch();
   const [data, setData] = useState({
     name: '',
@@ -86,7 +86,6 @@ const RegisterForm = ({ close }) => {
     if (!isValid) return;
 
     dispatch(signUp(data));
-    close();
   };
 
   return (
