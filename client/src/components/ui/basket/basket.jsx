@@ -19,7 +19,7 @@ import {
   minusProduct,
   removeProduct,
   sendBasketToUser
-} from '../../../store/users';
+} from '../../../store/user';
 import { getFoods } from '../../../store/foods';
 
 const Basket = ({ opened, onClose }) => {

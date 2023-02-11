@@ -8,7 +8,7 @@ import Basket from '../basket/basket';
 
 import logo from '../../../assets/img/logo.svg';
 
-import { getUserData } from '../../../store/users';
+import { getUserData } from '../../../store/user';
 
 const Header = () => {
   const [cartOpened, setCartOpened] = useState(false);

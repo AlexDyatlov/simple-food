@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { getUserData, getIsLoggedIn } from '../../../store/users';
+import { getUserData, getIsLoggedIn } from '../../../store/user';
 
 import Modal from '../../common/modal/modal';
 import Login from '../login/login';

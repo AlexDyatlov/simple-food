@@ -13,7 +13,7 @@ import Login from '../../ui/login/login';
 import ProductCardDetailed from '../../common/productCard/productCardDetailed';
 
 import { getFoodById } from '../../../store/foods';
-import { getIsLoggedIn } from '../../../store/users';
+import { getIsLoggedIn } from '../../../store/user';
 
 const ProductPage = ({ productId }) => {
   const food = useSelector(getFoodById(productId));

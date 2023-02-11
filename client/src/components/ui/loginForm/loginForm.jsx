@@ -7,7 +7,7 @@ import Button from '../../common/button/button';
 import CheckBoxField from '../../common/form/checkBoxField/checkBoxField';
 
 import { validator } from '../../../utils/validateRules';
-import { getAuthErrors, signIn } from '../../../store/users';
+import { getAuthErrors, signIn } from '../../../store/user';
 
 const LoginForm = () => {
   const history = useHistory();

@@ -8,7 +8,7 @@ import SvgIcon from '../svgIcon/svgIcon';
 import Title from '../title/title';
 import AboutOrder from '../../ui/aboutOrder/aboutOrder';
 
-import { addProduct, getCurrentFoodData, getUserData, minusProduct } from '../../../store/users';
+import { addProduct, getCurrentFoodData, getUserData, minusProduct } from '../../../store/user';
 import { deleteFood } from '../../../store/foods';
 
 const ProductCardDetailed = ({ productId, isLoggedIn, toggleVisibleModal, ...food }) => {

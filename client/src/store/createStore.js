@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import categoriesReducer from './categories';
 import foodsReducer from './foods';
-import userReducer from './users';
+import userReducer from './user';
 
 const rootReducer = combineReducers({
   categories: categoriesReducer,

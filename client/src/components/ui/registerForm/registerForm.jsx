@@ -6,7 +6,7 @@ import CheckBoxField from '../../common/form/checkBoxField/checkBoxField';
 import Button from '../../common/button/button';
 
 import { validator } from '../../../utils/validateRules';
-import { signUp } from '../../../store/users';
+import { signUp } from '../../../store/user';
 
 const RegisterForm = () => {
   const dispatch = useDispatch();

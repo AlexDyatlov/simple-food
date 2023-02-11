@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { loadCategoriesList } from '../../../store/categories';
 import { loadFoodsList } from '../../../store/foods';
-import { getIsLoggedIn, getIsLoadingStatus, loadCurrentUser } from '../../../store/users';
+import { getIsLoggedIn, getIsLoadingStatus, loadCurrentUser } from '../../../store/user';
 
 const AppLoader = ({ children }) => {
   const dispatch = useDispatch();

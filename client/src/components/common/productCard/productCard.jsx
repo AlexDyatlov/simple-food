@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '../button/button';
 
-import { createBasketFood, getIsLoggedIn } from '../../../store/users';
+import { createBasketFood, getIsLoggedIn } from '../../../store/user';
 
 const ProductCard = ({ img, name, price, productId, onLoginBasket }) => {
   const dispatch = useDispatch();
