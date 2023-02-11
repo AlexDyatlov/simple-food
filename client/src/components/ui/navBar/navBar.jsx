@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 
-import { getCurrentUserData, getIsLoggedIn } from '../../../store/users';
+import { getUserData, getIsLoggedIn } from '../../../store/users';
 
 import Modal from '../../common/modal/modal';
 import Login from '../login/login';
@@ -11,7 +11,7 @@ const NavBar = () => {
   const [isOpen, setIsOpen] = React.useState(false);
   const modalIsClose = isOpen !== false;
   const isLoggedIn = useSelector(getIsLoggedIn());
-  const currentUser = useSelector(getCurrentUserData());
+  const currentUser = useSelector(getUserData());
 
   const toggleVisibleModal = () => {
     setIsOpen(!isOpen);

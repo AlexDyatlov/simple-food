@@ -8,12 +8,12 @@ import SvgIcon from '../svgIcon/svgIcon';
 import Title from '../title/title';
 import AboutOrder from '../../ui/aboutOrder/aboutOrder';
 
-import { addProduct, getCurrentFoodData, getCurrentUserData, minusProduct } from '../../../store/users';
+import { addProduct, getCurrentFoodData, getUserData, minusProduct } from '../../../store/users';
 import { deleteFood } from '../../../store/foods';
 
 const ProductCardDetailed = ({ productId, isLoggedIn, toggleVisibleModal, ...food }) => {
   const dispatch = useDispatch();
-  const currentUser = useSelector(getCurrentUserData());
+  const currentUser = useSelector(getUserData());
   const currentFoodBasket = useSelector(getCurrentFoodData({ currentUser, productId }));
 
   const handleAddedProductToCart = () => {

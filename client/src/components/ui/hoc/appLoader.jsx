@@ -4,23 +4,23 @@ import PropTypes from 'prop-types';
 
 import { loadCategoriesList } from '../../../store/categories';
 import { loadFoodsList } from '../../../store/foods';
-import { getIsLoggedIn, getUsersLoadingStatus, loadUsersList } from '../../../store/users';
+import { getIsLoggedIn, getIsLoadingStatus, loadCurrentUser } from '../../../store/users';
 
 const AppLoader = ({ children }) => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(getIsLoggedIn());
-  const usersStatusLoading = useSelector(getUsersLoadingStatus());
+  const isLoadingStatus = useSelector(getIsLoadingStatus());
 
   useEffect(() => {
     dispatch(loadCategoriesList());
     dispatch(loadFoodsList());
 
     if (isLoggedIn) {
-      dispatch(loadUsersList());
+      dispatch(loadCurrentUser());
     }
   }, [isLoggedIn]);
 
-  if (usersStatusLoading) return 'Загрузка...';
+  if (isLoadingStatus) return 'Загрузка...';
 
   return children;
 };

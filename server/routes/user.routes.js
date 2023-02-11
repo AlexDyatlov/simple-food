@@ -5,10 +5,12 @@ const User = require('../models/User');
 const auth = require('../middleware/auth.middleware');
 
 router
-  .get('/', auth, async (req, res) => {
+  .get('/:userId', auth, async (req, res) => {
     try {
-      const list = await User.find();
-      res.status(200).send(list);
+      const { userId } = req.params;
+      const currentUser = await User.findById(userId);
+
+      res.status(200).send(currentUser);
     } catch (error) {
       res.status(500).json({
         message: 'На сервере произошла ошибка. Попробуйте позже.'
@@ -22,7 +24,7 @@ router
       if (userId === req.user._id) {
         const updatedUserBasket = await User.findByIdAndUpdate(
           userId,
-          { basket: req.body },
+          req.body,
           { new: true }
         );
 

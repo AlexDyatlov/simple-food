@@ -8,11 +8,11 @@ import Basket from '../basket/basket';
 
 import logo from '../../../assets/img/logo.svg';
 
-import { getCurrentUserData } from '../../../store/users';
+import { getUserData } from '../../../store/users';
 
 const Header = () => {
   const [cartOpened, setCartOpened] = useState(false);
-  const currentUser = useSelector(getCurrentUserData());
+  const currentUser = useSelector(getUserData());
   const totalCount = currentUser?.basket.reduce((sum, item) => sum + item.count, 0);
 
   return (

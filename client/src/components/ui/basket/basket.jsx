@@ -14,7 +14,7 @@ import ProductCardBasket from '../../common/productCard/productCardBasket';
 import {
   addProduct,
   clearBasketToUser,
-  getCurrentUserData,
+  getUserData,
   getIsLoggedIn,
   minusProduct,
   removeProduct,
@@ -24,7 +24,7 @@ import { getFoods } from '../../../store/foods';
 
 const Basket = ({ opened, onClose }) => {
   const dispatch = useDispatch();
-  const currentUser = useSelector(getCurrentUserData());
+  const currentUser = useSelector(getUserData());
   const food = useSelector(getFoods());
   const isLoggedIn = useSelector(getIsLoggedIn());
 
@@ -45,7 +45,7 @@ const Basket = ({ opened, onClose }) => {
   };
 
   const sendOrder = () => {
-    dispatch(sendBasketToUser(currentUser.basket));
+    dispatch(sendBasketToUser(currentUser));
     return alert('Заказ отправлен!');
   };
 
@@ -99,9 +99,7 @@ const Basket = ({ opened, onClose }) => {
 
                   {currentUser.basket.length > 0 && (
                     <>
-                      {currentUser.totalPrice && (
-                        <p>Сумма заказа: {currentUser.totalPrice}</p>
-                      )}
+                      <p>Сумма заказа: {currentUser.totalPrice}</p>
                       <Button
                         className="w-full text-lg mt-[30px] py-3 px-8 rounded-2xl text-white bg-[#FF6838]"
                         tag="btn"

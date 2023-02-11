@@ -10,7 +10,7 @@ import { calcTotalPrice } from '../utils/calcTotalPrice';
 
 const initialState = localStorageService.getAccessToken()
   ? {
-    entities: null,
+    data: null,
     isLoading: true,
     error: null,
     auth: { userId: localStorageService.getUserId() },
@@ -18,7 +18,7 @@ const initialState = localStorageService.getAccessToken()
     dataLoaded: false
   }
   : {
-    entities: null,
+    data: null,
     isLoading: false,
     error: null,
     auth: null,
@@ -26,19 +26,19 @@ const initialState = localStorageService.getAccessToken()
     dataLoaded: false
   };
 
-const usersSlice = createSlice({
-  name: 'users',
+const userSlice = createSlice({
+  name: 'user',
   initialState,
   reducers: {
-    usersRequested: (state) => {
+    userRequested: (state) => {
       state.isLoading = true;
     },
-    usersReceived: (state, action) => {
-      state.entities = action.payload;
+    userReceived: (state, action) => {
+      state.data = action.payload;
       state.dataLoaded = true;
       state.isLoading = false;
     },
-    usersRequestFailed: (state, action) => {
+    userRequestFailed: (state, action) => {
       state.error = action.payload;
       state.isLoading = false;
     },
@@ -51,58 +51,54 @@ const usersSlice = createSlice({
       state.error = action.payload;
     },
     userCreated: (state, action) => {
-      if (!Array.isArray(state.entities)) {
-        state.entities = [];
+      if (!Array.isArray(state.data)) {
+        state.data = [];
       }
-      state.entities.push(action.payload);
+      state.data.push(action.payload);
     },
     userLoggedOut: (state) => {
-      state.entities = null;
+      state.data = null;
       state.isLoggedIn = false;
       state.auth = null;
       state.dataLoaded = false;
     },
     addProduct: (state, action) => {
-      const currentUser = state.entities.find((u) => u._id === state.auth.userId);
-      const findItem = currentUser.basket.find((obj) => obj._id === action.payload._id);
+      const findItem = state.data.basket.find((obj) => obj._id === action.payload._id);
 
       if (findItem) {
         findItem.count++;
       } else {
-        currentUser.basket = [...currentUser.basket, { ...action.payload, count: 1 }];
+        state.data.basket = [...state.data.basket, { ...action.payload, count: 1 }];
       }
 
-      currentUser.totalPrice = calcTotalPrice(currentUser.basket);
+      state.data.totalPrice = calcTotalPrice(state.data.basket);
     },
     removeProduct: (state, action) => {
-      const currentUser = state.entities.find((u) => u._id === state.auth.userId);
-      currentUser.basket = currentUser.basket.filter((obj) => {
+      state.data.basket = state.data.basket.filter((obj) => {
         return obj._id !== action.payload;
       });
 
-      currentUser.totalPrice = calcTotalPrice(currentUser.basket);
+      state.data.totalPrice = calcTotalPrice(state.data.basket);
     },
     minusProduct(state, action) {
-      const currentUser = state.entities.find((u) => u._id === state.auth.userId);
-      const findItem = currentUser.basket.find((obj) => obj._id === action.payload);
+      const findItem = state.data.basket.find((obj) => obj._id === action.payload);
 
       if (findItem) findItem.count--;
 
-      currentUser.totalPrice = calcTotalPrice(currentUser.basket);
+      state.data.totalPrice = calcTotalPrice(state.data.basket);
     },
     clearBasket(state) {
-      const currentUser = state.entities.find((u) => u._id === state.auth.userId);
-      currentUser.basket = [];
-      currentUser.totalPrice = 0;
+      state.data.basket = [];
+      state.data.totalPrice = 0;
     }
   }
 });
 
-const { reducer: usersReducer, actions } = usersSlice;
+const { reducer: userReducer, actions } = userSlice;
 export const {
-  usersRequested,
-  usersReceived,
-  usersRequestFailed,
+  userRequested,
+  userReceived,
+  userRequestFailed,
   authRequestSuccess,
   authRequestFailed,
   userLoggedOut,
@@ -112,12 +108,12 @@ export const {
   clearBasket
 } = actions;
 
-const authRequested = createAction('users/authRequested');
+const authRequested = createAction('user/authRequested');
 const sendBasketRequested = createAction('basket/sendBasketRequested');
 const sendBasketSuccess = createAction('basket/sendBasketSuccess');
 const sendBasketFailed = createAction('basket/sendBasketFailed');
-const basketClearRequested = createAction('foods/basketClearRequested');
-const basketClearFailed = createAction('foods/basketClearFailed');
+const basketClearRequested = createAction('basket/basketClearRequested');
+const basketClearFailed = createAction('basket/basketClearFailed');
 
 export const signIn =
   ({ payload, redirect }) =>
@@ -158,26 +154,21 @@ export const logOut = () => (dispatch) => {
   history.push('/');
 };
 
-export const loadUsersList = () => async (dispatch) => {
-  dispatch(usersRequested());
+export const loadCurrentUser = () => async (dispatch) => {
+  dispatch(userRequested());
   try {
-    const { content } = await userService.get();
-    dispatch(usersReceived(content));
+    const { content } = await userService.getCurrentUser();
+    dispatch(userReceived(content));
   } catch (error) {
-    dispatch(usersRequestFailed(error.message));
+    dispatch(userRequestFailed(error.message));
   }
 };
 
-export const getUsersList = () => (state) => state.users.entities;
-export const getUsersLoadingStatus = () => (state) => state.users.isLoading;
-export const getAuthErrors = () => (state) => state.users.error;
-export const getIsLoggedIn = () => (state) => state.users.isLoggedIn;
-export const getCurrentUserData = () => (state) => {
-  return state.users.entities
-    ? state.users.entities.find((u) => u._id === state.users.auth.userId)
-    : null;
-};
-export const getDataStatus = () => (state) => state.users.dataLoaded;
+export const getUserData = () => (state) => state.user.data;
+export const getIsLoadingStatus = () => (state) => state.user.isLoading;
+export const getAuthErrors = () => (state) => state.user.error;
+export const getIsLoggedIn = () => (state) => state.user.isLoggedIn;
+export const getDataStatus = () => (state) => state.user.dataLoaded;
 export const getCurrentFoodData = (payload) => (state) => {
   const { currentUser, productId } = payload;
   return currentUser?.basket
@@ -212,4 +203,4 @@ export const clearBasketToUser = (userId) => async (dispatch) => {
   }
 };
 
-export default usersReducer;
+export default userReducer;
